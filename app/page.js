@@ -2,6 +2,7 @@
 import { Navbar } from "../components/Navbar";
 import { Sidebar } from "../components/Sidebar";
 import { Content } from "../components/Content"
+import { ViewProvider } from "@/context/ViewContext";
 
 export default function Home() {
 
@@ -9,8 +10,10 @@ export default function Home() {
     <div>
       <Navbar />
       <div className="page-container">
-        <Sidebar />
-        <Content />
+        <ViewProvider>
+          <Sidebar />
+          <Content />
+        </ViewProvider>
       </div>
     </div>
   );
