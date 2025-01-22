@@ -1,10 +1,10 @@
-Context Details:
+**Context Details:**
 
 1.SessionProvider - nextauth builtin
 2.ViewProvider - sidebar
 3.MenuProvide - menu in admin console
 
-App Structure details:
+**App Structure details:**
 
 1. User Types:
     1.1 admin
@@ -18,12 +18,13 @@ App Structure details:
     2.3 menu
 
 3. SubMenu details:
-    3.0 add_items
-    3.1 modify_items
-
+    3.0 default
+    3.1 add_items
+    3.2 modify_items
 
   
-Database details:
+**Database details**
+
 1. Users Collection
 Stores details of admins, order takers, and customers.
 {

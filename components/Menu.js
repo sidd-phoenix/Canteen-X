@@ -1,6 +1,6 @@
 import React from 'react'
-import MenuButtons from '../components/MenuButtons'
-import MenuContent from '../components/MenuContent'
+import MenuButtons from './MenuButtons'
+import MenuContent from './MenuContent'
 import '../styles/Menu.css'
 import { MenuProvider } from '@/context/MenuContext'
 

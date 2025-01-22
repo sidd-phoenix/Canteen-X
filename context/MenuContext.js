@@ -16,7 +16,7 @@ export const MenuProvider = ({children}) =>{
 
     const value={
         subMenu,
-        setSubMenu
+        setSubMenu,
     }
 
     return(
