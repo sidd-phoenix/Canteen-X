@@ -1,0 +1,31 @@
+"use client"
+
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+import { SessionProvider } from "next-auth/react";
+import { ViewProvider } from "@/context/ViewContext";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <link rel="icon" type="image/jpg" href="/logo.jpg" />
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <SessionProvider>
+          <ViewProvider>
+            <main>{children}</main>
+          </ViewProvider>
+        </SessionProvider>
+      </body>
+    </html>
+  );
+}

@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+}
+
+.dark-mode {
+  background-color: #333; /* Dark background */
+  color: #fff; /* Light text */
+}
+
+.light-mode {
+  background-color: #fff; /* Light background */
+  color: #000; /* Dark text */
+}
+
+.page-container{
+  display: flex;
+}
