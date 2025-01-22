@@ -1,0 +1,27 @@
+/* ModifyItems.css */
+.menu-table {
+    width: 100%;
+    border-collapse: collapse; /* Merge borders */
+  }
+  
+  .menu-table th, .menu-table td {
+    border: 1px solid #ccc; /* Border around cells */
+    padding: 10px; /* Padding inside cells */
+    text-align: left; /* Align text to the left */
+  }
+  
+  .menu-table th {
+    background-color: #f2f2f2; /* Light background for headers */
+  }
+  
+  .menu-table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Zebra striping for rows */
+  }
+  
+  .menu-table tr:hover {
+    background-color: #e0e0e0; /* Highlight row on hover */
+  }
+  
+  .menu-table button {
+    padding: 5px 10px; /* Padding for buttons */
+  }
