@@ -22,7 +22,7 @@ const AddOrderTaker = () => {
                 throw new Error(data.message || 'Something went wrong');
             }
 
-            console.log('Order Taker updated successfully:', data);
+            alert('Order Taker updated successfully');
         } catch (error) {
             console.error('Error updating Order Taker:', error.message);
             alert(error.message);
