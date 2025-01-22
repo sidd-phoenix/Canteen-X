@@ -20,9 +20,6 @@ Stores details of admins, order takers, and customers.
   "email": String,            // User's email (unique, used for login)
   "role": String,             // Role of the user: "admin", "order_taker", or "customer"
   "counter": Number,          // Counter number (only for order takers; null for others)
-  "itemsServed": [            // Array of menu item IDs served by this order taker (only for order takers)
-    ObjectId
-  ],
   "createdAt": Date,          // Account creation timestamp
   "updatedAt": Date           // Last updated timestamp
 }
@@ -35,7 +32,7 @@ Stores all menu items and maps them to specific order takers.
   "price": Number,            // Price of the item
   "isAvailable": Boolean,     // True if the item is available, false if disabled
   "category": String,         // Optional: Category of the item (e.g., "Drinks", "Snacks")
-  "assignedOrderTaker": ObjectId,  // Reference to the order taker who serves this item
+  "assignedCounter": ObjectId,  // Reference to the order taker who serves this item
   "createdAt": Date,          // Item creation timestamp
   "updatedAt": Date           // Last updated timestamp
 }

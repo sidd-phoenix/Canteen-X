@@ -3,13 +3,11 @@ import React, { useState } from 'react';
 const AddOrderTaker = () => {
     const [email, setEmail] = useState('');
     const [counter, setCounter] = useState('');
-    // const [itemsServed, setItemsServed] = useState('');
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await fetch('/api/admin/updateOrderTaker', {
+            const response = await fetch('/api/admin/addOrderTaker', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -51,14 +49,6 @@ const AddOrderTaker = () => {
                     required
                 />
             </div>
-            {/* <div>
-                <label>Items Served (comma-separated):</label>
-                <input
-                    type="text"
-                    value={itemsServed}
-                    onChange={(e) => setItemsServed(e.target.value)}
-                />
-            </div> */}
             <button type="submit">Add Order Taker</button>
         </form>
     );

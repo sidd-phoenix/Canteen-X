@@ -14,10 +14,10 @@ export const Sidebar = () => {
         <Sidebar_admin />
       )}
       {session && session.user.role === 'order_taker' && (
-        <Sidebar_admin />
+        <Sidebar_order_taker />
       )}
       {session && session.user.role === 'customer' && (
-        <Sidebar_admin />
+        <Sidebar_customer />
       )}
     </>
   )
