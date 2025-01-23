@@ -1,0 +1,8 @@
+.menu{
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-sub{
+    border: 2px solid red;
+}

@@ -28,11 +28,6 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: null, // Null for admins and customers
     },
-    itemsServed: {
-      type: [mongoose.Schema.Types.ObjectId], // Array of ObjectIds referencing menu items
-      default: [], // Default to an empty array
-      ref: 'MenuItem', // Assuming 'MenuItem' is the model for menu items
-    },
   },
   {
     timestamps: true, // Automatically add createdAt and updatedAt fields

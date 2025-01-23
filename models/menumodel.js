@@ -21,9 +21,10 @@ const menuSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    counter: {
-      type: Number,
-      default: null,
+    assignedOrderTaker: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User', // References the 'User' model (order taker)
+      required: true, // Every menu item must have an assigned order taker
     },
   },
   {

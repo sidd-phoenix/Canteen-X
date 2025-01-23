@@ -1,5 +1,8 @@
-'use client'
-import React, { useState } from 'react'
+import React from 'react'
+import MenuButtons from './MenuButtons'
+import MenuContent from './MenuContent'
+import '../styles/Menu.css'
+import { MenuProvider } from '@/context/MenuContext'
 
 const Menu = () => {
   const [menuItem, setMenuItem] = useState({
@@ -52,51 +55,11 @@ const Menu = () => {
   }
 
   return (
-    <div className="menu-container">
-      <h2>Add Menu Item</h2>
-      {message && <div className="message">{message}</div>}
-      
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Item Name:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={menuItem.name}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="counter">Counter Number:</label>
-          <input
-            type="text"
-            id="counter"
-            name="counter"
-            value={menuItem.counter}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="price">Price:</label>
-          <input
-            type="number"
-            id="price"
-            name="price"
-            value={menuItem.price}
-            onChange={handleInputChange}
-            min="0"
-            step="0.01"
-            required
-          />
-        </div>
-
-        <button type="submit">Add Item</button>
-      </form>
+    <div className='menu'>
+      <MenuProvider>
+        <MenuButtons />
+        <MenuContent />
+      </MenuProvider>
     </div>
   )
 }

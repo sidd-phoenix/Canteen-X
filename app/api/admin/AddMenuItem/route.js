@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import mongoose from 'mongoose'; // Ensure mongoose is imported
 import connectMongo from '../../../mongoose'; // Path to your MongoDB connection utility
 import Menu from '../../../../models/menumodel'; // Path to your Menu model
 
@@ -25,7 +24,7 @@ export async function POST(request) {
         const menuItem = new Menu({
             name: body.name,
             price: body.price,
-            counter: body.counter,
+            assignedCounter: body.assignedCounter,
             category: body.category,
             isAvailable: body.isAvailable
         });
