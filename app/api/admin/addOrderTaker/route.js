@@ -15,7 +15,7 @@ export async function POST(request) {
             return NextResponse.json({ message: 'User not found. Please register your email as a customer.' }, { status: 404 });
         }
 
-        // Update user details
+        // Update user detail
         user.role = 'order_taker';
         user.counter = counter;
 
