@@ -20,7 +20,7 @@ const Menu = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const response = await fetch('/api/admin/AddMenuItem', {
+      const response = await fetch('/api/admin/addMenuItem', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -37,6 +37,9 @@ const Menu = () => {
       const data = await response.json()
 
       if (!response.ok) {
+        if (response.status === 409) {
+          throw new Error('Food item already exists')
+        }
         throw new Error(data.error || 'Failed to add item')
       }
 

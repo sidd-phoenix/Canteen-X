@@ -11,7 +11,17 @@ export async function POST(request) {
         // Parse the request body
         const body = await request.json();
 
-        // Create a new menu item with the correct schema fields
+        // Check if an item with the same name already exists
+        const existingItem = await Menu.findOne({ name: body.name });
+        
+        if (existingItem) {
+            return NextResponse.json(
+                { error: 'Food item already exists' },
+                { status: 409 }  // 409 Conflict status code
+            );
+        }
+
+        // Create a new menu item if no duplicate exists
         const menuItem = new Menu({
             name: body.name,
             price: body.price,
