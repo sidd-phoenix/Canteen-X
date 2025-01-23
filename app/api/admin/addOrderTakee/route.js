@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import connectMongo from '../../../mongoose'; // Import Mongoose connection
+import connectMongo from '../../../mongoose'; 
 import User from '../../../../models/usermodel';
 
 export async function POST(request) {
