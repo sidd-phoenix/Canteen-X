@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectMongo from '../../../mongoose'; // Path to your MongoDB connection utility
 import Menu from '../../../../models/menumodel'; // Path to your Menu model
+import mongoose from 'mongoose'; // Import mongoose for ObjectId validation
 
 export async function POST(request) {
     try {
@@ -9,7 +10,7 @@ export async function POST(request) {
 
         // Parse the request body
         const body = await request.json();
-
+        // console.log(body);
         // Check if an item with the same name already exists
         const existingItem = await Menu.findOne({ name: body.name });
         
