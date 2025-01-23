@@ -23,23 +23,22 @@ const ModifyItems = () => {
 
   const handleRemove = async (id) => {
     try {
-      // console.log(id)
-      const response = await fetch(`/api/menu/${id}`, {
+      const response = await fetch(`/api/menu?id=${id}`, { // Ensure the ID is included in the query string
         method: 'DELETE',
-      })
+      });
       if (!response.ok) {
-        console.log(response)
-        throw new Error('Failed to delete item')
+        const errorMessage = await response.text(); // Get the error message from the response
+        throw new Error(`Failed to delete item: ${errorMessage}`);
       }
-      setMenuItems(menuItems.filter(item => item._id !== id)) // Update state to remove the item
+      setMenuItems(menuItems.filter(item => item._id !== id)); // Update state to remove the item from the frontend
     } catch (error) {
-      console.error('Error removing item:', error)
+      console.error('Error removing item:', error);
     }
   }
 
   const handleToggleAvailability = async (id, currentStatus) => {
     try {
-      const response = await fetch(`/api/menu/${id}`, {
+      const response = await fetch(`/api/menu?id=${id}`, { // Include the ID in the query string
         method: 'PATCH', // Use PATCH to update the item
         headers: {
           'Content-Type': 'application/json',
@@ -47,12 +46,33 @@ const ModifyItems = () => {
         body: JSON.stringify({ isAvailable: !currentStatus }), // Toggle the current status
       });
       if (!response.ok) {
-        throw new Error('Failed to update availability');
+        const errorMessage = await response.text(); // Get the error message from the response
+        throw new Error(`Failed to update availability: ${errorMessage}`);
       }
       const updatedItem = await response.json(); // Get the updated item
       setMenuItems(menuItems.map(item => (item._id === id ? updatedItem : item))); // Update state with the new item
     } catch (error) {
       console.error('Error updating availability:', error);
+    }
+  }
+
+  const handlePriceChange = async (id, newPrice) => {
+    try {
+      const response = await fetch(`/api/menu?id=${id}`, { // Include the ID in the query string
+        method: 'PATCH', // Use PATCH to update the item
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ price: newPrice }), // Send the new price
+      });
+      if (!response.ok) {
+        const errorMessage = await response.text(); // Get the error message from the response
+        throw new Error(`Failed to update price: ${errorMessage}`);
+      }
+      const updatedItem = await response.json(); // Get the updated item
+      setMenuItems(menuItems.map(item => (item._id === id ? updatedItem : item))); // Update state with the new item
+    } catch (error) {
+      console.error('Error updating price:', error);
     }
   }
 
@@ -75,13 +95,19 @@ const ModifyItems = () => {
             <tr key={item._id}>
               <td>{item._id}</td>
               <td>{item.name}</td>
-              <td>${item.price}</td>
+              <td>
+                <input 
+                  type="number" 
+                  value={item.price} 
+                  onChange={(e) => handlePriceChange(item._id, parseFloat(e.target.value))} // Call the price change function
+                />
+              </td>
               <td>{item.category}</td>
               <td>
                 <input 
                   type="checkbox" 
                   checked={item.isAvailable} 
-                  onChange={() => handleToggleAvailability(item._id, item.isAvailable)}
+                  onChange={() => handleToggleAvailability(item._id, item.isAvailable)} // Call the toggle function
                 />
               </td>
               <td>

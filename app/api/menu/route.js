@@ -14,12 +14,11 @@ export async function GET(req) {
 export async function PATCH(req) {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get('id');
-  console.log(req)
 
   await connectMongo();
   try {
-    const { isAvailable } = await req.json(); // Get the new availability status from the request body
-    const updatedItem = await Menu.findByIdAndUpdate(id, { isAvailable }, { new: true }); // Update the item
+    const updateData = await req.json(); // Get the new data from the request body
+    const updatedItem = await Menu.findByIdAndUpdate(id, updateData, { new: true }); // Update the item
     if (!updatedItem) {
       return new Response('Item not found', { status: 404 });
     }
@@ -35,10 +34,12 @@ export async function DELETE(req) {
 
   await connectMongo()
   try {
-    await Menu.findByIdAndDelete(id)
-
-    return new Response(null, { status: 204 }) // No content
+    const deletedItem = await Menu.findByIdAndDelete(id); // Ensure the item is deleted from the database
+    if (!deletedItem) {
+      return new Response('Item not found', { status: 404 });
+    }
+    return new Response(null, { status: 204 }); // No content
   } catch (error) {
-    return new Response('Failed to delete menu item', { status: 500 })
+    return new Response('Failed to delete menu item', { status: 500 });
   }
 } 
