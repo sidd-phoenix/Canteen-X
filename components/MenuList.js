@@ -4,7 +4,11 @@ import Link from 'next/link'; // Import Link from Next.js
 const MenuList = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [cart, setCart] = useState([]); // State to hold cart items
+  const [cart, setCart] = useState(() => {
+    // Initialize cart from local storage
+    const storedCart = localStorage.getItem('cart');
+    return storedCart ? JSON.parse(storedCart) : [];
+  });
 
   useEffect(() => {
     const fetchMenuItems = async () => {
@@ -31,20 +35,16 @@ const MenuList = () => {
   // Function to add item to cart
   const addToCart = (item, quantity) => {
     const existingItem = cart.find(cartItem => cartItem._id === item._id);
+    let updatedCart;
     if (existingItem) {
-      // If item already in cart, update the quantity
-      setCart(cart.map(cartItem => 
+      updatedCart = cart.map(cartItem =>
         cartItem._id === item._id ? { ...existingItem, quantity: existingItem.quantity + quantity } : cartItem
-      ));
+      );
     } else {
-      // If item not in cart, add it
-      setCart([...cart, { ...item, quantity }]);
+      updatedCart = [...cart, { ...item, quantity }];
     }
-  };
-
-  // Function to save cart to local storage
-  const saveCartToLocalStorage = () => {
-    localStorage.setItem('cart', JSON.stringify(cart)); // Save cart to local storage
+    setCart(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart)); // Save updated cart to local storage
   };
 
   return (
@@ -71,7 +71,7 @@ const MenuList = () => {
         ))}
       </ul>
       <Link href="/cart">
-        <button onClick={saveCartToLocalStorage}>View Cart</button> {/* Button to view cart */}
+        <button>View Cart</button> {/* Button to view cart */}
       </Link>
     </div>
   );
