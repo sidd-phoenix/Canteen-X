@@ -1,0 +1,61 @@
+.order-taker-container {
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.order-taker-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.form-group input {
+  padding: 0.8rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+}
+
+.order-taker-list {
+  margin-top: 2rem;
+}
+
+.order-taker-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.order-taker-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  background-color: white;
+}
+
+.remove-button {
+  padding: 0.5rem 1rem;
+  background-color: var(--error-color);
+  color: white;
+  border: none;
+  border-radius: 0.3rem;
+  transition: all 0.3s ease;
+}
+
+.remove-button:hover {
+  opacity: 0.9;
+} 

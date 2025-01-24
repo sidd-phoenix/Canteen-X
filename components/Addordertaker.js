@@ -1,6 +1,7 @@
 'use client'; // For Next.js app directory
 
 import React, { useState } from 'react';
+import '../styles/OrderTaker.css';
 
 const AddOrderTaker = () => {
     const [email, setEmail] = useState('');
