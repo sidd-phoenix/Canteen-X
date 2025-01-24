@@ -48,14 +48,24 @@
 }
 
 .remove-button {
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.5rem;
   background-color: var(--error-color);
   color: white;
   border: none;
-  border-radius: 0.3rem;
-  transition: all 0.3s ease;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .remove-button:hover {
-  opacity: 0.9;
+  background-color: var(--error-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.remove-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 } 

@@ -39,12 +39,14 @@ const Removeordertaker = () => {
   };
 
   return (
-    <div>
+    <div className="remove-ordertaker-container">
       <h2>Order Takers</h2>
-      <ul>
+      <ul className="ordertaker-list">
         {orderTakers.map((user) => (
-          <li key={user.email}>
-            {user.name} ({user.email})
+          <li key={user.email} className="ordertaker-item">
+            <span className="ordertaker-info">
+              {user.name} ({user.email})
+            </span>
             <button onClick={async () => {
               await handleRemoveOrderTaker(user.email);
               alert('Order taker removed successfully');

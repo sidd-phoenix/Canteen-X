@@ -1,4 +1,4 @@
-import React, { useEffect, useState , useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import '../styles/Cart.css';
 
@@ -39,26 +39,45 @@ const Cart = () => {
   }
 
   return (
-    <div>
-      <h2>Your Cart</h2>
-      <ul>
+    <div className="cart-container">
+      <h2 className="cart-title">Your Cart</h2>
+      <ul className="cart-items">
         {cart.map(item => (
-          <li key={item._id}>
-            <button onClick={() => removeCartItem(item._id)}>Remove</button>
-            <strong>{item.name}</strong>: ${item.price} x 
-            <input
-              type="number"
-              min="1"
-              value={item.quantity}
-              onChange={(e) => updateCartItemQuantity(item._id, parseInt(e.target.value))}
-            />
-            = ${item.price * item.quantity}
+          <li key={item._id} className="cart-item">
+            <button className="remove-button" onClick={() => removeCartItem(item._id)}>Remove</button>
+            <strong>{item.name}</strong>: ${item.price}
+            <div className="quantity-controls">
+              <button 
+                className="quantity-button"
+                onClick={() => {
+                  if (item.quantity > 1) {
+                    updateCartItemQuantity(item._id, item.quantity - 1);
+                  }
+                }}
+              >
+                -
+              </button>
+              <input
+                className="quantity-input"
+                type="number"
+                min="1"
+                value={item.quantity}
+                onChange={(e) => updateCartItemQuantity(item._id, parseInt(e.target.value))}
+              />
+              <button 
+                className="quantity-button"
+                onClick={() => updateCartItemQuantity(item._id, item.quantity + 1)}
+              >
+                +
+              </button>
+              <span className="item-total">= ${item.price * item.quantity}</span>
+            </div>
           </li>
         ))}
       </ul>
-      <h3>Total: ${calculateTotal()}</h3>
+      <h3 className="total">Total: ${calculateTotal()}</h3>
       <Link href="/">
-        <button onClick={saveCartToLocalStorage}>Continue Shopping</button>
+        <button className="continue-shopping" onClick={saveCartToLocalStorage}>Continue Shopping</button>
       </Link>
     </div>
   );

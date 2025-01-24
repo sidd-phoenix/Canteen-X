@@ -5,9 +5,9 @@ import { useView } from '@/context/ViewContext'
 import UserProfile from './UserProfile'
 import OrderHistory from './OrderHistory'
 import Menu from './Menu'
+import MenuList from './MenuList'
 import Addordertaker from './Addordertaker'
 import Removeordertaker from './Removeordertaker'
-import MenuList from './MenuList'
 
 export const Content = () => {
   const { view } = useView()
@@ -27,7 +27,7 @@ export const Content = () => {
         )}
         {view === 'menu' && (
           <Menu />
-        )}
+          )}
         {view === 'addordertaker' && (
           <Addordertaker />
         )}

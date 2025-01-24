@@ -1,0 +1,90 @@
+.remove-ordertaker-container {
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.remove-ordertaker-container h2 {
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.ordertaker-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ordertaker-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background-color: var(--card-bg-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+}
+
+.ordertaker-item:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.ordertaker-info {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.ordertaker-item button {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--error-color);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ordertaker-item button:hover {
+  background-color: var(--error-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.ordertaker-item button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode styles */
+.dark-mode .ordertaker-item {
+  background-color: var(--card-bg-dark);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .remove-ordertaker-container {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .remove-ordertaker-container {
+    padding: 1rem;
+  }
+  
+  .ordertaker-item {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+} 
