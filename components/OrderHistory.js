@@ -1,4 +1,5 @@
 import React from 'react'
+import '../styles/OrderHistory.css';
 
 const OrderHistory = () => {
   return (

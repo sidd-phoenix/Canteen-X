@@ -12,26 +12,29 @@ import MenuList from './MenuList'
 export const Content = () => {
   const { view } = useView()
   const { data: session } = useSession()
+
   return (
-    <div className='content-container'>
-      {view == 'default' && (
-        <MenuList />
-      )}
-      {view == 'user_profile' && (
-        <UserProfile />
-      )}
-      {view == 'order_history' && (
-        <OrderHistory />
-      )}
-      {view == 'menu' && (
-        <Menu />
-      )}
-      {view == 'addordertaker' && (
-        <Addordertaker />
-      )}
-      {view == 'removeordertaker' && (
-        <Removeordertaker />
-      )}
+    <div className="content-container">
+      <div className="content-body">
+        {view === 'default' && (
+          <MenuList />
+        )}
+        {view === 'user_profile' && (
+          <UserProfile />
+        )}
+        {view === 'order_history' && (
+          <OrderHistory />
+        )}
+        {view === 'menu' && (
+          <Menu />
+        )}
+        {view === 'addordertaker' && (
+          <Addordertaker />
+        )}
+        {view === 'removeordertaker' && (
+          <Removeordertaker />
+        )}
+      </div>
     </div>
   )
 }
