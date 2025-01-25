@@ -22,7 +22,7 @@ export async function POST(req, res) {
         customer_phone: customer_phone,
       },
       order_meta: {
-        return_url: "http://localhost:3000/products",  // Redirect URL after payment
+        return_url: `http://localhost:3000/products/${order_id}`,  // Redirect URL after payment
       },
     };
 

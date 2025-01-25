@@ -347,3 +347,11 @@ h1, h2, h3, h4, h5, h6 {
 .page-container{
   display: flex;
 }
+
+.sun-icon {
+  color: var(--primary-color); /* Yellow color for the sun icon */
+}
+
+.dark-mode .sun-icon {
+  color: var(--primary-color); /* Keep the same yellow color in dark mode */
+}

@@ -38,7 +38,7 @@ export const Navbar = () => {
         <div className="nav-buttons">
           <button onClick={toggleTheme} className="theme-toggle-btn">
             {isDarkMode ? (
-              <FaSun />
+              <FaSun className="sun-icon"/>
             ) : (
               <FaMoon />
             )}
