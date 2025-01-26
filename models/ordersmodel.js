@@ -28,9 +28,8 @@ const ordersSchema = new mongoose.Schema(
           required: true,
           min: 1, // Quantity must be at least 1
         },
-        orderTakerId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'User', // References the 'User' model (order taker)
+        assignedCounter:{
+          type: Number,
           required: true,
         },
         status: {

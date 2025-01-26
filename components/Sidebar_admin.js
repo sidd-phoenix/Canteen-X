@@ -9,13 +9,13 @@ const Sidebar_admin = () => {
 
     return (
         <div className="sidebar">
-            <button onClick={() => setView('menu')}>
+            <button onClick={() => setView('menu_admin')}>
                 <MdRestaurantMenu />
             </button>
-            <button onClick={() => setView('addordertaker')}>
+            <button onClick={() => setView('add_order_taker')}>
                 <MdAdd />
             </button>
-            <button onClick={() => setView('removeordertaker')}>
+            <button onClick={() => setView('remove_order_taker')}>
                 <MdRemove />
             </button>
         </div>

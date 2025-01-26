@@ -16,6 +16,10 @@
     2.1 user_profile
     2.2 order_history
     2.3 menu
+    2.4 menu_admin
+    2.5 add_order_taker
+    2.6 remove_order_taker
+    2.7 orders
 
 3. SubMenu details:
     3.0 default
@@ -45,7 +49,7 @@ Stores all menu items and maps them to specific order takers.
   "price": Number,            // Price of the item
   "isAvailable": Boolean,     // True if the item is available, false if disabled
   "category": String,         // Optional: Category of the item (e.g., "Drinks", "Snacks")
-  "assignedCounter": ObjectId,  // Reference to the order taker who serves this item
+  "assignedCounter": Number,  // Reference to the order taker who serves this item
   "createdAt": Date,          // Item creation timestamp
   "updatedAt": Date           // Last updated timestamp
 }
@@ -61,7 +65,7 @@ Tracks all orders placed by customers, split into sub-orders per order taker.
       "name": String,         // Name of the item (for redundancy)
       "price": Number,        // Price of the item (for redundancy)
       "quantity": Number,     // Quantity of the item ordered
-      "orderTakerId": ObjectId, // Reference to the order taker responsible for this item
+      "assignedCounter": Number, // Reference to the order taker responsible for this item
       "status": String        // Status for this item: "pending", "preparing", "ready"
     }
   ],

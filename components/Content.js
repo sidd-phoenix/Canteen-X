@@ -8,6 +8,7 @@ import Menu from './Menu'
 import MenuList from './MenuList'
 import Addordertaker from './Addordertaker'
 import Removeordertaker from './Removeordertaker'
+import Orders from './Orders'
 
 export const Content = () => {
   const { view } = useView()
@@ -17,7 +18,7 @@ export const Content = () => {
     <div className="content-container">
       <div className="content-body">
         {view === 'default' && (
-          <MenuList />
+          "Default view"
         )}
         {view === 'user_profile' && (
           <UserProfile />
@@ -26,13 +27,19 @@ export const Content = () => {
           <OrderHistory />
         )}
         {view === 'menu' && (
-          <Menu />
+          <MenuList />
           )}
-        {view === 'addordertaker' && (
+        {view === 'add_order_taker' && (
           <Addordertaker />
         )}
-        {view === 'removeordertaker' && (
+        {view === 'remove_order_taker' && (
           <Removeordertaker />
+        )}
+        {view === 'orders' && (
+          <Orders />
+        )}
+        {view === 'menu_admin' && (
+          <Menu />
         )}
       </div>
     </div>

@@ -13,6 +13,9 @@ const Sidebar_order_taker = () => {
             <button onClick={() => setView('user_profile')}>
                 <FaUser />
             </button>
+            <button onClick={() => setView('orders')}>
+                Orders
+            </button>
         </div>
     )
 }
