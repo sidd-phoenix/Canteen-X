@@ -1,10 +1,10 @@
-import connectMongo from '../../mongoose' // Adjust the path as necessary
-import Menu from '../../../models/menumodel' // Adjust the path as necessary
+import connectMongo from '@/app/mongoose' // Adjust the path as necessary
+import Menu from '@/models/menumodel' // Adjust the path as necessary
 
 export async function GET(req) {
   await connectMongo()
   try {
-    const menuItems = await Menu.find({})
+    const menuItems = await Menu.find({isAvailable: true})
     return new Response(JSON.stringify(menuItems), { status: 200 })
   } catch (error) {
     return new Response('Failed to fetch menu items', { status: 500 })

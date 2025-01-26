@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import '../styles/Cart.css';
 import { load } from "@cashfreepayments/cashfree-js";
+import Link from 'next/link';
+import '@/styles/Cart.css';
 
 const Cart = () => {
     const [cart, setCart] = useState([]);

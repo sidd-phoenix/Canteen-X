@@ -1,11 +1,13 @@
 'use client'; // For Next.js app directory
 
 import React, { useState } from 'react';
-import '../styles/OrderTaker.css';
+import '@/styles/OrderTaker.css';
 
 const AddOrderTaker = () => {
     const [email, setEmail] = useState('');
     const [counter, setCounter] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState('');
     // const [itemsServed, setItemsServed] = useState('');
 
     const handleSubmit = async (e) => {
@@ -22,16 +24,28 @@ const AddOrderTaker = () => {
                 body: JSON.stringify({ email, counter }),
             });
 
-            const data = await response.json();
+            // Check if the response is valid JSON
+            const contentType = response.headers.get("content-type");
+            let data;
+            if (contentType && contentType.includes("application/json")) {
+                data = await response.json();
+            } else {
+                const text = await response.text(); // Get the response text for debugging
+                throw new Error(`Unexpected response format: ${text}`);
+            }
 
             if (!response.ok) {
+                // Show alert with the error message from the server
+                alert(data.message || 'Something went wrong');
                 throw new Error(data.message || 'Something went wrong');
             }
 
-            console.log('Order Taker updated successfully:', data);
+            // Show success alert
+            alert(data.message);
         } catch (error) {
-            console.error('Error updating Order Taker:', error.message);
+            // Show error message in alert
             setMessage('Error: ' + error.message);
+            console.log('Error updating Order Taker: ' + error.message);
         } finally {
             setLoading(false);
         }
