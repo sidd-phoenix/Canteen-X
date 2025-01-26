@@ -59,7 +59,7 @@ const MenuList = () => {
       <h2>Menu Items</h2>
       <input
         type="text"
-        placeholder="Search items by name..."
+        placeholder="Search items .."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input change
         className={styles.searchInput}
