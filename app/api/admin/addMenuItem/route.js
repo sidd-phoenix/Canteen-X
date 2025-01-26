@@ -26,7 +26,8 @@ export async function POST(request) {
             price: body.price,
             assignedCounter: body.assignedCounter,
             category: body.category,
-            isAvailable: body.isAvailable
+            isAvailable: body.isAvailable,
+            imageUrl: body.imageUrl
         });
 
         // Save the menu item to the database

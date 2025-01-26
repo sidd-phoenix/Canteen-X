@@ -42,4 +42,31 @@ export async function DELETE(req) {
   } catch (error) {
     return new Response('Failed to delete menu item', { status: 500 });
   }
+}
+
+export async function POST(req) {
+  await connectMongo();
+  try {
+    const { name, price, category, isAvailable, assignedCounter, imageUrl } = await req.json();
+
+    // Validate that imageUrl is provided
+    if (!imageUrl) {
+      return new Response('Image URL is required', { status: 400 });
+    }
+
+    const newMenuItem = new Menu({
+      name,
+      price,
+      category,
+      isAvailable,
+      assignedCounter,
+      imageUrl,
+    });
+
+    await newMenuItem.save();
+    return new Response(JSON.stringify(newMenuItem), { status: 201 });
+  } catch (error) {
+    console.error('Error adding menu item:', error);
+    return new Response('Failed to add menu item', { status: 500 });
+  }
 } 

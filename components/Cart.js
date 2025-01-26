@@ -11,7 +11,12 @@ const Cart = () => {
     useEffect(() => {
         setIsClient(true);
         const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
-        setCart(storedCart);
+        // Ensure each item has a quantity of at least 1
+        const initializedCart = storedCart.map(item => ({
+            ...item,
+            quantity: item.quantity || 1,
+        }));
+        setCart(initializedCart);
     }, []);
 
     // Load Cashfree SDK in sandbox mode
@@ -75,15 +80,18 @@ const Cart = () => {
 
 
     const calculateTotal = () => {
-        return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+        return cart.reduce((total, item) => {
+            const itemTotal = item.price * item.quantity;
+            return total + (isNaN(itemTotal) ? 0 : itemTotal);
+        }, 0);
     };
 
     const updateCartItemQuantity = (itemId, quantity) => {
         const updatedCart = cart.map(item =>
-            item._id === itemId ? { ...item, quantity } : item
+            item._id === itemId ? { ...item, quantity: Math.max(1, quantity) } : item
         );
         setCart(updatedCart);
-        localStorage.setItem('cart', JSON.stringify(updatedCart)); // Update local storage
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
     };
 
     const removeCartItem = (itemId) => {
@@ -124,7 +132,7 @@ const Cart = () => {
                                 type="number"
                                 min="1"
                                 value={item.quantity}
-                                onChange={(e) => updateCartItemQuantity(item._id, parseInt(e.target.value))}
+                                onChange={(e) => updateCartItemQuantity(item._id, parseInt(e.target.value) || 1)}
                             />
                             <button
                                 className="quantity-button"
@@ -141,7 +149,7 @@ const Cart = () => {
             <Link href="/">
                 <button className="continue-shopping" onClick={saveCartToLocalStorage}>Continue Shopping</button>
             </Link>
-                <button className="pay-now" onClick={()=>handleBuyNow(calculateTotal())}>Pay Now</button>
+            <button className="pay-now" onClick={() => handleBuyNow(calculateTotal())}>Pay Now</button>
         </div>
     );
 };

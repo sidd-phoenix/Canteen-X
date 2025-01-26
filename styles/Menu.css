@@ -213,3 +213,10 @@
   text-align: center;
   color: var(--text-primary);
 }
+
+.menu-item img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  margin-bottom: 1rem;
+}

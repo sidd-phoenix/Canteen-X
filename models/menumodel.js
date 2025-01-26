@@ -25,6 +25,10 @@ const menuSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    imageUrl: {
+      type: String,
+      trim: true,
+    },
   },
   {
     timestamps: true, // Automatically add createdAt and updatedAt fields

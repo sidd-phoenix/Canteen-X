@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link'; // Import Link from Next.js
+import Image from 'next/image'; // Import Image from Next.js
 import styles from '../styles/MenuList.module.css';
 
 const MenuList = () => {
@@ -21,19 +22,19 @@ const MenuList = () => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch(`/api/menu?search=${searchTerm}`); // Fetch menu items based on search term
+        const response = await fetch('/api/menu');
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error('Failed to fetch menu items');
         }
         const data = await response.json();
-        setMenuItems(data); // Set the fetched menu items to state
+        setMenuItems(data);
       } catch (error) {
         console.error('Error fetching menu items:', error);
       }
     };
 
     fetchMenuItems();
-  }, [searchTerm]); // Fetch menu items whenever the search term changes
+  }, []);
 
   // Function to add item to cart
   const addToCart = (item, quantity) => {
@@ -64,50 +65,26 @@ const MenuList = () => {
         className={styles.searchInput}
       />
       <ul className={styles.menuList}>
-        {menuItems.map(item => (
-          <li key={item._id} className={styles.menuItem}>
-            <div className={styles.itemInfo}>
-              <strong>{item.name}</strong>
-              <span>${item.price}</span>
-            </div>
-            <div className={styles.quantityControls}>
-              <button 
-                className={styles.quantityButton}
-                onClick={() => {
-                  const input = document.querySelector(`#quantity-${item._id}`);
-                  if (parseInt(input.value) > 1) {
-                    input.value = parseInt(input.value) - 1;
-                  }
-                }}
-              >
-                -
-              </button>
-              <input
-                id={`quantity-${item._id}`}
-                type="number"
-                min="1"
-                defaultValue="1"
-                className={styles.quantityInput}
-                onChange={(e) => addToCart(item, parseInt(e.target.value))} // Add item to cart with specified quantity
+        {menuItems
+          .filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase())) // Filter items based on search term
+          .map((item) => (
+            <li key={item._id} className={styles.menuItem}>
+              <Image
+                src={item.imageUrl} // Ensure this is the direct link
+                alt={item.name}
+                width={300} // Set appropriate width
+                height={200} // Set appropriate height
+                objectFit="cover" // Ensure the image covers the container
               />
-              <button 
-                className={styles.quantityButton}
-                onClick={() => {
-                  const input = document.querySelector(`#quantity-${item._id}`);
-                  input.value = parseInt(input.value) + 1;
-                }}
-              >
-                +
-              </button>
-              <button 
-                className={styles.addToCartButton}
-                onClick={() => addToCart(item, parseInt(document.querySelector(`#quantity-${item._id}`).value))} // Add to cart with current quantity
-              >
-                Add to Cart
-              </button>
-            </div>
-          </li>
-        ))}
+              <div className={styles.itemDetails}>
+                <h3>{item.name}</h3>
+                <p>${item.price}</p>
+                <button onClick={() => addToCart(item)}>
+                  Add to Cart
+                </button>
+              </div>
+            </li>
+          ))}
       </ul>
       <Link href="/cart">
         <button className={styles.viewCartButton}>View Cart</button>

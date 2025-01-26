@@ -9,7 +9,8 @@ const ModifyItems = () => {
       try {
         const response = await fetch('/api/menu') // Adjust the API endpoint as needed
         if (!response.ok) {
-          throw new Error('Network response was not ok')
+          const errorDetails = await response.text()
+          throw new Error(`Network response was not ok: ${errorDetails}`)
         }
         const data = await response.json()
         setMenuItems(data)
