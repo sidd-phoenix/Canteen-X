@@ -204,3 +204,31 @@
     opacity: 0.6;
   }
 } 
+
+/* Notification Popup */
+.notification {
+  position: absolute; /* Positioned relative to the parent container */
+  top: 0; /* Sticks to the top of the MenuList container */
+  right: 20px; /* Aligns it towards the right within the parent */
+  background-color: #28a745;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10; /* Ensure visibility above other child elements */
+  font-size: 1rem;
+  animation: fade-in-out 3s ease-in-out; /* Smooth animation */
+  pointer-events: none; /* Prevent interaction with the popup */
+}
+
+/* Fade-in and fade-out animation */
+@keyframes fade-in-out {
+  0%, 100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  10%, 90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
