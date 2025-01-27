@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
-import connectMongo from '../../../mongoose';
-import User from '../../../../models/usermodel';
+import connectMongo from '@/app/mongoose';
+import User from '@/models/usermodel';
 
 export async function POST(request) {
+    console.log("reached removeOrderTaker")
     await connectMongo();
 
     const { email } = await request.json();

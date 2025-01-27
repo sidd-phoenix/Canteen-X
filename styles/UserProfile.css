@@ -185,4 +185,80 @@
   .detail-group span {
     font-size: 1.1rem;
   }
+}
+
+/* Add these new styles to your existing CSS */
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.edit-form input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 1.1rem;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  transition: all var(--transition-normal);
+}
+
+.edit-form input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+.save-button {
+  background: linear-gradient(45deg, #27ae60, #2ecc71);
+  color: white;
+}
+
+.cancel-button {
+  background: linear-gradient(45deg, #7f8c8d, #95a5a6);
+  color: white;
+}
+
+/* Skeleton loader styles */
+.skeleton-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: var(--skeleton-color);
+}
+
+.skeleton-text-lg {
+  height: 28px;
+  width: 200px;
+  background-color: var(--skeleton-color);
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-text-md {
+  height: 20px;
+  width: 150px;
+  background-color: var(--skeleton-color);
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-text-sm {
+  height: 16px;
+  width: 120px;
+  background-color: var(--skeleton-color);
+  border-radius: var(--radius-sm);
+}
+
+:root {
+  --skeleton-color: #e0e0e0;
+  --input-bg: #ffffff;
+}
+
+.dark-mode {
+  --skeleton-color: #2c3e50;
+  --input-bg: #2c3e50;
 } 

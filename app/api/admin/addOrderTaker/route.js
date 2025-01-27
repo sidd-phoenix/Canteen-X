@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import connectMongo from '../../../mongoose'; 
-import User from '../../../../models/usermodel';
+import connectMongo from '@/app/mongoose'; 
+import User from '@/models/usermodel';
 
 export async function POST(request) {
     await connectMongo();
@@ -8,10 +8,11 @@ export async function POST(request) {
     const { email, counter } = await request.json();
 
     try {
-        // Find the user by email
+        console.log('Searching for user with email:', email);
         const user = await User.findOne({ email });
 
         if (!user) {
+            console.log('User not found');
             return NextResponse.json({ message: 'User not found. Please register your email as a customer.' }, { status: 404 });
         }
 
@@ -24,7 +25,7 @@ export async function POST(request) {
 
         return NextResponse.json({ message: 'Order Taker updated successfully' }, { status: 200 });
     } catch (error) {
-        console.error('Error updating user:', error);
-        return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
+        // Return a JSON response with the error message
+        return NextResponse.json({ message: 'Internal server error: ' + error.message }, { status: 500 });
     }
 }

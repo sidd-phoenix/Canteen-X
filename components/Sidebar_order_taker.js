@@ -1,7 +1,6 @@
 import React from 'react'
 import { FaUser } from 'react-icons/fa'
-import { useView } from '../context/ViewContext'; // Import the context
-import { useSession } from "next-auth/react"; // Import NextAuth hooks
+import { useView } from '@/context/ViewContext'; // Import the context
 
 
 const Sidebar_order_taker = () => {

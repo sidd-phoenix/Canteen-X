@@ -5,6 +5,7 @@ const AddItems = () => {
     name: '',
     assignedCounter: '', // To match schema
     price: 0,
+    imageUrl: '', // New field for image URL
   });
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
@@ -17,12 +18,23 @@ const AddItems = () => {
     }));
   };
 
+  const convertGoogleDriveLinkToDirectLink = (url) => {
+    const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+    }
+    return url;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
     setError('');
 
     try {
+      const directImageUrl = convertGoogleDriveLinkToDirectLink(menuItem.imageUrl);
+      console.log('Converted Image URL:', directImageUrl); // Log the converted URL
+
       const response = await fetch('/api/admin/addMenuItem', {
         method: 'POST',
         headers: {
@@ -33,7 +45,8 @@ const AddItems = () => {
           price: Number(menuItem.price),
           category: 'default',
           isAvailable: true,
-          assignedCounter: menuItem.assignedCounter, // Pass as string (ObjectId)
+          assignedCounter: menuItem.assignedCounter,
+          imageUrl: directImageUrl, // Use the converted direct link
         }),
       });
 
@@ -45,7 +58,7 @@ const AddItems = () => {
       }
 
       setMessage('Item added successfully!');
-      setMenuItem({ name: '', assignedCounter: '', price: 0 });
+      setMenuItem({ name: '', assignedCounter: '', price: 0, imageUrl: '' });
     } catch (error) {
       console.error('Error details:', error);
       setError('Error adding item: ' + error.message);
@@ -72,7 +85,7 @@ const AddItems = () => {
           placeholder="Price"
           value={menuItem.price}
           onChange={handleInputChange}
-          min="0"
+          min="1"
           required
         />
         <input
@@ -82,6 +95,13 @@ const AddItems = () => {
           value={menuItem.assignedCounter}
           onChange={handleInputChange}
           required
+        />
+        <input
+          type="text"
+          name="imageUrl"
+          placeholder="Image URL"
+          value={menuItem.imageUrl}
+          onChange={handleInputChange}
         />
         <button type="submit">Add Item</button>
       </form>

@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
-import connectMongo from '../../../mongoose'; // Path to your MongoDB connection utility
-import Menu from '../../../../models/menumodel'; // Path to your Menu model
-import mongoose from 'mongoose'; // Import mongoose for ObjectId validation
+import connectMongo from '@/app/mongoose'; // Path to your MongoDB connection utility
+import Menu from '@/models/menumodel'; // Path to your Menu model
 
 export async function POST(request) {
     try {
@@ -27,7 +26,8 @@ export async function POST(request) {
             price: body.price,
             assignedCounter: body.assignedCounter,
             category: body.category,
-            isAvailable: body.isAvailable
+            isAvailable: body.isAvailable,
+            imageUrl: body.imageUrl
         });
 
         // Save the menu item to the database

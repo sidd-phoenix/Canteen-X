@@ -11,6 +11,7 @@ export async function POST(req, res) {
     Cashfree.XClientId = process.env.CASHFREE_CLIENT_ID;
     Cashfree.XClientSecret = process.env.CASHFREE_CLIENT_SECRET;
     Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
+    const version = process.env.CASHFREE_VERSION;
 
     // Configure order request
     const request = {
@@ -22,12 +23,13 @@ export async function POST(req, res) {
         customer_phone: customer_phone,
       },
       order_meta: {
-        return_url: `http://localhost:3000/products/${order_id}`,  // Redirect URL after payment
+        return_url: `http://localhost:3000/payment/${order_id}`,  // Redirect URL after payment
+        notify_url: `https://canteen-x.vercel.app/api/payment/webhook`
       },
     };
 
     // Create an order with Cashfree
-    const response = await Cashfree.PGCreateOrder("2023-08-01", request);
+    const response = await Cashfree.PGCreateOrder(version, request);
     if (response.status == 200) {
       return NextResponse.json({
         success: true,
@@ -54,3 +56,6 @@ export async function POST(req, res) {
     );
   }
 }
+
+
+
