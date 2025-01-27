@@ -1,35 +1,36 @@
 "use client"; // Ensure this is a client component
 
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link'; // Import Link from Next.js
-import Image from 'next/image'; // Import Image from Next.js
-import styles from '../styles/MenuList.module.css';
+import React, { useEffect, useState } from "react";
+import Link from "next/link"; // Import Link from Next.js
+import Image from "next/image"; // Import Image from Next.js
+import styles from "../styles/MenuList.module.css";
 
 const MenuList = () => {
   const [menuItems, setMenuItems] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [cart, setCart] = useState([]);
+  const [notification, setNotification] = useState(null); // State for notification
 
   // Initialize cart from local storage
   useEffect(() => {
-    if (typeof window !== 'undefined') { // Check if running in the browser
-      const storedCart = localStorage.getItem('cart');
+    if (typeof window !== "undefined") {
+      const storedCart = localStorage.getItem("cart");
       setCart(storedCart ? JSON.parse(storedCart) : []);
     }
-  }, []); // Run this effect only once when the component mounts
+  }, []);
 
   // Fetch menu items based on search term
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch('/api/menu');
+        const response = await fetch("/api/menu");
         if (!response.ok) {
-          throw new Error('Failed to fetch menu items');
+          throw new Error("Failed to fetch menu items");
         }
         const data = await response.json();
         setMenuItems(data);
       } catch (error) {
-        console.error('Error fetching menu items:', error);
+        console.error("Error fetching menu items:", error);
       }
     };
 
@@ -37,21 +38,25 @@ const MenuList = () => {
   }, []);
 
   // Function to add item to cart
-  const addToCart = (item, quantity) => {
-    const existingItem = cart.find(cartItem => cartItem._id === item._id);
+  const addToCart = (item) => {
+    const existingItem = cart.find((cartItem) => cartItem._id === item._id);
     if (existingItem) {
-      // If item already in cart, update the quantity
-      const updatedCart = cart.map(cartItem => 
-        cartItem._id === item._id ? { ...existingItem, quantity: existingItem.quantity + quantity } : cartItem
+      const updatedCart = cart.map((cartItem) =>
+        cartItem._id === item._id
+          ? { ...existingItem, quantity: existingItem.quantity + 1 }
+          : cartItem
       );
       setCart(updatedCart);
-      localStorage.setItem('cart', JSON.stringify(updatedCart)); // Update local storage
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
     } else {
-      // If item not in cart, add it
-      const newCart = [...cart, { ...item, quantity }];
+      const newCart = [...cart, { ...item, quantity: 1 }];
       setCart(newCart);
-      localStorage.setItem('cart', JSON.stringify(newCart)); // Update local storage
+      localStorage.setItem("cart", JSON.stringify(newCart));
     }
+
+    // Show notification
+    setNotification(`${item.name} has been added to your cart!`);
+    setTimeout(() => setNotification(null), 3000); // Hide notification after 3 seconds
   };
 
   return (
@@ -59,27 +64,49 @@ const MenuList = () => {
       <h2>Menu Items</h2>
       <input
         type="text"
-        placeholder="Search items .."
+        placeholder="Search items..."
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input change
+        onChange={(e) => setSearchTerm(e.target.value)}
         className={styles.searchInput}
       />
+
+      {/* Notification Popup */}
+      {notification && (
+        <div className={styles.notification}>
+          {notification}
+        </div>
+      )}
+
       <ul className={styles.menuList}>
         {menuItems
-          .filter(item => item.isAvailable && item.name.toLowerCase().includes(searchTerm.toLowerCase())) // Filter for available items
+          .filter(
+            (item) =>
+              item.isAvailable &&
+              item.name.toLowerCase().includes(searchTerm.toLowerCase())
+          )
           .map((item) => (
             <li key={item._id} className={styles.menuItem}>
-              <Image
-                src={item.imageUrl} // Ensure this is the direct link
-                alt={item.name}
-                width={300} // Set appropriate width
-                height={200} // Set appropriate height
-                objectFit="cover" // Ensure the image covers the container
-              />
+              {item.imageUrl ? (
+                <Image
+                  src={item.imageUrl}
+                  alt={item.name}
+                  width={300}
+                  height={200}
+                  style={{ objectFit: "cover" }} // `objectFit` is not a prop for `next/image`, use style
+                />
+              ) : (
+                <div style={{ width: 300, height: 200, backgroundColor: "#ccc" }}>
+                  {item.name}
+                </div>
+              )}
+
               <div className={styles.itemDetails}>
                 <h3>{item.name}</h3>
                 <p>${item.price}</p>
-                <button onClick={() => addToCart(item)}>
+                <button
+                  onClick={() => addToCart(item)}
+                  className={styles.addToCartButton}
+                >
                   Add to Cart
                 </button>
               </div>

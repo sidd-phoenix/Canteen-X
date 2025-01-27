@@ -4,7 +4,7 @@ const AddItems = () => {
   const [menuItem, setMenuItem] = useState({
     name: '',
     assignedCounter: '', // To match schema
-    price: 0,
+    price: '',
     imageUrl: '', // New field for image URL
   });
   const [message, setMessage] = useState('');

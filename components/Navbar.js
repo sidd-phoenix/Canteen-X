@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { FaSun, FaMoon } from "react-icons/fa"
+import { FaSun, FaMoon } from "react-icons/fa";
 import '../styles/Navbar.css';
 import { signIn, signOut, useSession } from "next-auth/react"; // Import NextAuth hooks
 
 export const Navbar = () => {
-
   const [isDarkMode, setIsDarkMode] = useState(false); // State for dark mode
-  const { data: session } = useSession(); // Get session data
+  const { data: session, status } = useSession(); // Get session data and status
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
@@ -26,26 +25,34 @@ export const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-brand">
-          <img src='./logo1.jpg' alt="CanteenX Logo" className="navbar-logo" />
+          <img src="./logo1.jpg" alt="CanteenX Logo" className="navbar-logo" />
           <h1>CanteenX</h1>
-          {session ? (
+          {status === "loading" ? (
+            <span className="skeleton skeleton-text"></span> // Skeleton for user role
+          ) : session ? (
             <span className="user-role">{session.user.role}</span>
           ) : (
             <span></span>
-          )
-          }
+          )}
         </div>
+
         <div className="nav-buttons">
           <button onClick={toggleTheme} className="theme-toggle-btn">
             {isDarkMode ? (
-              <FaSun className="sun-icon"/>
+              <FaSun className="sun-icon" />
             ) : (
               <FaMoon />
             )}
           </button>
         </div>
+
         <div className="navbar-auth">
-          {session ? (
+          {status === "loading" ? (
+            <div className="profile-skeleton-container">
+              <div className="skeleton skeleton-circle"></div> {/* Skeleton for profile picture */}
+              <div className="skeleton skeleton-btn"></div> {/* Skeleton for button */}
+            </div>
+          ) : session ? (
             <div className="profile-container">
               <img
                 src={session.user.image}
@@ -64,5 +71,5 @@ export const Navbar = () => {
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};

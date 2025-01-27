@@ -97,17 +97,30 @@ const ModifyItems = () => {
               <td>{item._id}</td>
               <td>{item.name}</td>
               <td>
-                <input 
-                  type="number" 
-                  value={item.price} 
-                  onChange={(e) => handlePriceChange(item._id, parseFloat(e.target.value))} // Call the price change function
+                <input
+                  type="number"
+                  value={item.price}
+                  min="1" // Sets a minimum value of 1 for UI
+                  onChange={(e) => {
+                    const newPrice = e.target.value; // Keep it as a string during typing
+                    if (newPrice === "" || parseFloat(newPrice) > 0) {
+                      // Allow empty input for intermediate states or valid prices
+                      handlePriceChange(item._id, newPrice);
+                    }
+                  }}
+                  onBlur={(e) => {
+                    // Ensure the value is valid after the user leaves the input field
+                    if (!e.target.value || parseFloat(e.target.value) <= 0) {
+                      handlePriceChange(item._id, "1"); // Reset to minimum value
+                    }
+                  }}
                 />
               </td>
               <td>{item.category}</td>
               <td>
-                <input 
-                  type="checkbox" 
-                  checked={item.isAvailable} 
+                <input
+                  type="checkbox"
+                  checked={item.isAvailable}
                   onChange={() => handleToggleAvailability(item._id, item.isAvailable)} // Call the toggle function
                 />
               </td>
