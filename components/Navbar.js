@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { useView } from '@/context/ViewContext';
 
 export const Navbar = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false); // State for dark mode
+  const [isDarkMode, setIsDarkMode] = useState(false); // State anirudh for dark mode
   const { data: session, status } = useSession(); // Get session data and status
   const { userDetails } = useUser();
   const [showProfile, setShowProfile] = useState(false);
