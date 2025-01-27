@@ -6,6 +6,8 @@ import '../styles/OrderTaker.css';
 const AddOrderTaker = () => {
     const [email, setEmail] = useState('');
     const [counter, setCounter] = useState('');
+    const [loading ,setLoading] = useState(false);
+    const [message, setMessage]= useState('');
     // const [itemsServed, setItemsServed] = useState('');
 
     const handleSubmit = async (e) => {
