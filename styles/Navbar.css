@@ -53,7 +53,9 @@
     box-shadow: var(--shadow-sm);
     animation: fadeIn 0.5s ease-out;
 }
-
+.profile-icon{
+    border-radius: 50%;
+}
 .profile-container {
     display: flex;
     align-items: center;
