@@ -66,7 +66,7 @@ const MenuList = () => {
       />
       <ul className={styles.menuList}>
         {menuItems
-          .filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase())) // Filter items based on search term
+          .filter(item => item.isAvailable && item.name.toLowerCase().includes(searchTerm.toLowerCase())) // Filter for available items
           .map((item) => (
             <li key={item._id} className={styles.menuItem}>
               <Image
