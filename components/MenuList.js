@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link"; // Import Link from Next.js
 import Image from "next/image"; // Import Image from Next.js
 import styles from "../styles/MenuList.module.css";
-import MenuItemSkeleton from './MenuItemSkeleton';
+import MenuItemSkeleton from "./MenuItemSkeleton";
 
 const MenuList = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -91,35 +91,49 @@ const MenuList = () => {
         ) : (
           // Show actual menu items when loaded
           menuItems
-            .filter(item => item.isAvailable && item.name.toLowerCase().includes(searchTerm.toLowerCase())) // Filter for available items
+            .filter(
+              (item) =>
+                item.isAvailable &&
+                item.name.toLowerCase().includes(searchTerm.toLowerCase())
+            ) // Filter for available items
             .map((item) => (
               <li key={item._id} className={styles.menuItem}>
-              {item.imageUrl ? (
-                <Image
-                  src={item.imageUrl}
-                  alt={item.name}
-                  width={300}
-                  height={200}
-                  style={{ objectFit: "cover" }} // `objectFit` is not a prop for `next/image`, use style
-                />
-              ) : (
-                <div style={{ width: 300, height: 200, backgroundColor: "#ccc" }}>
-                  {item.name}
-                </div>
-              )}
+                {item.imageUrl ? (
+                  <Image
+                    src={item.imageUrl}
+                    alt={item.name}
+                    width={300}
+                    height={200}
+                    style={{ objectFit: "cover" }} // Inline style for better rendering
+                  />
+                ) : (
+                  <div
+                    style={{
+                      width: 300,
+                      height: 200,
+                      backgroundColor: "#ccc",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {item.name}
+                  </div>
+                )}
 
-              <div className={styles.itemDetails}>
-                <h3>{item.name}</h3>
-                <p>${item.price}</p>
-                <button
-                  onClick={() => addToCart(item)}
-                  className={styles.addToCartButton}
-                >
-                  Add to Cart
-                </button>
-              </div>
-            </li>
-          ))}
+                <div className={styles.itemDetails}>
+                  <h3>{item.name}</h3>
+                  <p>${item.price.toFixed(2)}</p>
+                  <button
+                    onClick={() => addToCart(item)}
+                    className={styles.addToCartButton}
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              </li>
+            ))
+        )}
       </ul>
       <Link href="/cart">
         <button className={styles.viewCartButton}>View Cart</button>
