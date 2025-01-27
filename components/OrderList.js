@@ -1,53 +1,83 @@
 import React, { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react'; // Import useSession from next-auth
+import { useSession } from 'next-auth/react'; // Import useSession
 
 const OrderList = () => {
-    const { data: session } = useSession();
+    const { data: session } = useSession(); // Get session data
+    const [counterNumber, setCounterNumber] = useState(null);
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        console.log('Session data:', session); // Log session data
-
-        const fetchOrders = async () => {
+        const fetchCounterNumber = async () => {
             if (!session || !session.user || !session.user.email) {
-                setError('User not authenticated');
+                setError('Order taker email is required');
                 setLoading(false);
                 return;
             }
 
             try {
-                const response = await fetch(`/api/admin/getOrders`, {
+                const response = await fetch(`/api/admin/getCustomerId?email=${encodeURIComponent(session.user.email)}`, {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${session.accessToken}` // Ensure token is sent if needed
                     }
                 });
-                console.log('response',response);
+                console.log('response', response);
                 if (!response.ok) {
-                    throw new Error('Failed to fetch orders');
+                    throw new Error('Failed to fetch counter number');
                 }
                 const data = await response.json();
-                setOrders(data.orders);
+                setCounterNumber(data.counterNumber); // Assuming the response contains counterNumber
             } catch (err) {
+                console.error('Error fetching counter number:', err);
                 setError(err.message);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchOrders();
-    }, [session]);
+        fetchCounterNumber();
+    }, [session]); // Depend on session
 
-    const handleCheckboxChange = async (orderId, itemId) => {
+    useEffect(() => {
+        const fetchOrders = async () => {
+            if (!counterNumber) {
+                return; // Wait until counterNumber is available
+            }
+
+            try {
+                const response = await fetch(`/api/admin/getOrders?counterNumber=${encodeURIComponent(counterNumber)}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                console.log('response', response);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch orders');
+                }
+                const data = await response.json();
+                setOrders(data.orders);
+            } catch (err) {
+                console.error('Error fetching orders:', err);
+                setError(err.message);
+            }
+        };
+
+        fetchOrders();
+    }, [counterNumber]); // Depend on counterNumber
+
+    const handleCheckboxChange = async (orderId, itemId, currentStatus) => {
+        console.log('currentStatus', currentStatus);
+        const newStatus = currentStatus === 'preparing' ? 'ready' : 'preparing'; // Toggle status
+        console.log('newStatus', newStatus);
         try {
+            console.log('Updating item status:', { orderId, itemId, status: newStatus }); // Log the payload
             const response = await fetch(`/api/admin/updateOrderItemStatus`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ orderId, itemId, status: 'completed' }),
+                body: JSON.stringify({ orderId, itemId, status: newStatus }), // Set status to 'ready' or 'preparing'
             });
 
             if (!response.ok) {
@@ -61,7 +91,7 @@ const OrderList = () => {
                         return {
                             ...order,
                             items: order.items.map(item => 
-                                item.menuItemId === itemId ? { ...item, status: 'completed' } : item
+                                item.menuItemId === itemId ? { ...item, status: newStatus } : item
                             ),
                         };
                     }
@@ -69,7 +99,7 @@ const OrderList = () => {
                 })
             );
         } catch (error) {
-            console.error(error);
+            console.error('Error updating item status:', error);
         }
     };
 
@@ -93,8 +123,8 @@ const OrderList = () => {
                                     <label>
                                         <input
                                             type="checkbox"
-                                            checked={item.status === 'completed'}
-                                            onChange={() => handleCheckboxChange(order._id, item.menuItemId)}
+                                            checked={item.status === 'ready'}
+                                            onChange={() => handleCheckboxChange(order._id, item.menuItemId , item.status)}
                                         />
                                         {item.name} - ${item.price} x {item.quantity} (Status: {item.status})
                                     </label>

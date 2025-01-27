@@ -4,7 +4,6 @@ import User from '@/models/usermodel';
 
 export async function GET() {
     await connectMongo();
-
     try {
         // Find all users with the role of order_taker
         const orderTakers = await User.find({ role: 'order_taker' });

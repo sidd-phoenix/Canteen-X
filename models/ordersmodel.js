@@ -15,14 +15,6 @@ const ordersSchema = new mongoose.Schema(
           ref: 'Menu', // References the 'Menu' model
           required: true,
         },
-        name: {
-          type: String,
-          required: true, // Store the name redundantly
-        },
-        price: {
-          type: Number,
-          required: true, // Store the price redundantly
-        },
         quantity: {
           type: Number,
           required: true,

@@ -2,33 +2,25 @@ import { NextResponse } from 'next/server';
 import connectMongo from '@/app/mongoose';
 import Order from '@/models/ordersmodel';
 import User from '@/models/usermodel';
-import { getSession } from 'next-auth/react';
 
 export async function GET(req) {
+    console.log("reached getOrders");
     await connectMongo();
 
-    // Get the session from the request
-    const session = await getSession();
+    const { searchParams } = new URL(req.url);
+    const counterNumber = searchParams.get('counterNumber');
 
-
-    if (!session || !session.user || !session.user.email) {
-        return NextResponse.json({ message: 'User not authenticated' }, { status: 401 });
+    if (!counterNumber) {
+        return NextResponse.json({ message: 'Counter number is required' }, { status: 400 });
     }
 
-    const userEmail = session.user.email;
-
     try {
-        // Find the user by email
-        const user = await User.findOne({ email: userEmail });
-        if (!user) {
-            return NextResponse.json({ message: 'User not found' }, { status: 404 });
-        }
-
         // Fetch orders for the specific counter number
-        const orders = await Order.find({ 'items.assignedCounter': user.counter });
+        const orders = await Order.find({ 'items.assignedCounter': counterNumber });
 
         return NextResponse.json({ orders }, { status: 200 });
     } catch (error) {
+        console.error('Error fetching orders:', error);
         return NextResponse.json({ message: 'Internal server error: ' + error.message }, { status: 500 });
     }
 } 
