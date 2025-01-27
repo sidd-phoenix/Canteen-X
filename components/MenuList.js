@@ -4,12 +4,14 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link"; // Import Link from Next.js
 import Image from "next/image"; // Import Image from Next.js
 import styles from "../styles/MenuList.module.css";
+import MenuItemSkeleton from './MenuItemSkeleton';
 
 const MenuList = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [cart, setCart] = useState([]);
   const [notification, setNotification] = useState(null); // State for notification
+  const [loading, setLoading] = useState(true); // Add loading state
 
   // Initialize cart from local storage
   useEffect(() => {
@@ -22,6 +24,7 @@ const MenuList = () => {
   // Fetch menu items based on search term
   useEffect(() => {
     const fetchMenuItems = async () => {
+      setLoading(true); // Start loading
       try {
         const response = await fetch("/api/menu");
         if (!response.ok) {
@@ -31,6 +34,8 @@ const MenuList = () => {
         setMenuItems(data);
       } catch (error) {
         console.error("Error fetching menu items:", error);
+      } finally {
+        setLoading(false); // End loading regardless of outcome
       }
     };
 
@@ -78,14 +83,17 @@ const MenuList = () => {
       )}
 
       <ul className={styles.menuList}>
-        {menuItems
-          .filter(
-            (item) =>
-              item.isAvailable &&
-              item.name.toLowerCase().includes(searchTerm.toLowerCase())
-          )
-          .map((item) => (
-            <li key={item._id} className={styles.menuItem}>
+        {loading ? (
+          // Show skeleton loaders while loading
+          [...Array(6)].map((_, index) => (
+            <MenuItemSkeleton key={index} />
+          ))
+        ) : (
+          // Show actual menu items when loaded
+          menuItems
+            .filter(item => item.isAvailable && item.name.toLowerCase().includes(searchTerm.toLowerCase())) // Filter for available items
+            .map((item) => (
+              <li key={item._id} className={styles.menuItem}>
               {item.imageUrl ? (
                 <Image
                   src={item.imageUrl}

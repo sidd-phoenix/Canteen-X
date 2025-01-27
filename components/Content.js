@@ -27,7 +27,7 @@ export const Content = () => {
         )}
         {view === 'menu' && (
           <Menu />
-          )}
+        )}
         {view === 'addordertaker' && (
           <Addordertaker />
         )}

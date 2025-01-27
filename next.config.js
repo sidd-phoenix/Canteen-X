@@ -1,6 +1,10 @@
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
   images: {
-    domains: ['drive.google.com'],
+    domains: ['lh3.googleusercontent.com', 'drive.google.com'],
   },
   // ... other configurations ...
-}; 
+};
+
+module.exports = nextConfig; 

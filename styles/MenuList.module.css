@@ -152,6 +152,57 @@
   border-radius: var(--radius-md);
   margin-bottom: 1rem;
   object-fit: cover;
+}
+
+.skeleton {
+  opacity: 0.7;
+}
+
+.skeletonImage {
+  width: 300px;
+  height: 200px;
+  background-color: #e0e0e0;
+  border-radius: 8px;
+}
+
+.skeletonTitle {
+  width: 70%;
+  height: 24px;
+  background-color: #e0e0e0;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+
+.skeletonPrice {
+  width: 40%;
+  height: 20px;
+  background-color: #e0e0e0;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+
+.skeletonButton {
+  width: 120px;
+  height: 36px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+}
+
+/* Animation */
+.pulse {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
 } 
 
 /* Notification Popup */
