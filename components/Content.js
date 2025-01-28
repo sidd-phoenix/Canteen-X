@@ -8,6 +8,7 @@ import Menu from './Menu'
 import MenuList from './MenuList'
 import Addordertaker from './Addordertaker'
 import Removeordertaker from './Removeordertaker'
+import ActiveOrders from './ActiveOrders'
 
 export const Content = () => {
   const { view } = useView()
@@ -33,6 +34,9 @@ export const Content = () => {
         )}
         {view === 'removeordertaker' && (
           <Removeordertaker />
+        )}
+        {view === 'active_orders' && (
+          <ActiveOrders />
         )}
       </div>
     </div>

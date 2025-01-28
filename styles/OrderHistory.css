@@ -195,4 +195,73 @@
     align-items: flex-start;
     gap: 0.5rem;
   }
-} 
+}
+
+.skeletonfromorderhistory {
+  background-color: #e0e0e0;
+  height: 50px;
+  margin: 30px;
+  border-radius: 4px;
+}
+
+/* General styles for the OrderHistory component */
+.order-history-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: var(--background-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  animation: fadeIn 0.6s ease-out;
+}
+
+.order-history-container h1 {
+  text-align: center;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+
+.order-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.order-list li {
+  background-color: #fff;
+  margin-bottom: 1rem;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  transition: box-shadow var(--transition-normal);
+}
+
+.order-list li:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.order-list h2 {
+  margin: 0 0 0.5rem;
+  color: var(--text-primary);
+  font-size: 1.5rem;
+}
+
+.order-list p {
+  margin: 0.25rem 0;
+  color: var(--text-secondary);
+}
+
+.order-list ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 0.5rem;
+}
+
+.order-list ul li {
+  background-color: #f1f1f1;
+  margin-bottom: 0.5rem;
+  padding: 0.75rem;
+  border-radius: var(--radius-md);
+  border: 1px solid #ccc;
+}
