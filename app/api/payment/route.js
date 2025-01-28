@@ -24,7 +24,6 @@ export async function POST(req, res) {
       },
       order_meta: {
         return_url: `http://localhost:3000/payment/${order_id}`,  // Redirect URL after payment
-        notify_url: `https://canteen-x.vercel.app/api/payment/webhook`
       },
     };
 

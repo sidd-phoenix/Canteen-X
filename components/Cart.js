@@ -7,6 +7,8 @@ const Cart = () => {
     const [cart, setCart] = useState([]);
     const [isClient, setIsClient] = useState(false);
     const [paymentSessionId, setPaymentSessionId] = useState("");
+    const [unavailableItems, setUnavailableItems] = useState([]);
+    const [notification, setNotification] = useState("");
 
     useEffect(() => {
         setIsClient(true);
@@ -17,6 +19,7 @@ const Cart = () => {
             quantity: item.quantity || 1,
         }));
         setCart(initializedCart);
+        checkItemAvailability(initializedCart);
     }, []);
 
     // Load Cashfree SDK in sandbox mode
@@ -31,11 +34,30 @@ const Cart = () => {
         }
     };
 
+    const checkItemAvailability = async (cartItems) => {
+        const unavailable = [];
+        for (const item of cartItems) {
+            const response = await fetch(`/api/menu/${item._id}`);
+            const data = await response.json();
+            if (!data.isAvailable) {
+                unavailable.push(data.name);
+            }
+        }
+        setUnavailableItems(unavailable);
+        console.log(unavailableItems)
+    };
+
     // Function to handle the "Buy Now" button click
     const handleBuyNow = async (price) => {
+        console.log("hbn",unavailableItems)
+        if (unavailableItems.length > 0) {
+            checkItemAvailability(cart);
+            setNotification(`Please remove the following unavailable items to proceed: ${unavailableItems.join(', ')}`);
+            setTimeout(() => setNotification(null), 2000); // Hide notification after 3 seconds
+            return;
+        }
         try {
-
-            const bodydata={
+            const bodydata = {
                 order_id: `order_${new Date().getTime()}`,
                 order_amount: price,
                 customer_id: `cust_${new Date().getTime()}`,
@@ -94,7 +116,10 @@ const Cart = () => {
         localStorage.setItem('cart', JSON.stringify(updatedCart));
     };
 
-    const removeCartItem = (itemId) => {
+    const removeCartItem = async (itemId) => {
+        const itemToRemove = cart.find(item => item._id === itemId).name;
+        setUnavailableItems(unavailableItems.filter(item => item !== itemToRemove));
+        console.log("rci",unavailableItems)
         const updatedCart = cart.filter(item => item._id !== itemId);
         setCart(updatedCart);
         localStorage.setItem('cart', JSON.stringify(updatedCart)); // Update local storage
@@ -146,6 +171,11 @@ const Cart = () => {
                 ))}
             </ul>
             <h3 className="total">Total: ${calculateTotal()}</h3>
+            {notification && (
+                <div className="notification">
+                    {notification}
+                </div>
+            )}
             <Link href="/">
                 <button className="continue-shopping" onClick={saveCartToLocalStorage}>Continue Shopping</button>
             </Link>
