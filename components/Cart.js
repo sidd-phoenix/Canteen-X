@@ -49,7 +49,7 @@ const Cart = () => {
 
     // Function to handle the "Buy Now" button click
     const handleBuyNow = async (price) => {
-        console.log("hbn",unavailableItems)
+        console.log("hbn", unavailableItems);
         if (unavailableItems.length > 0) {
             checkItemAvailability(cart);
             setNotification(`Please remove the following unavailable items to proceed: ${unavailableItems.join(', ')}`);
@@ -57,13 +57,32 @@ const Cart = () => {
             return;
         }
         try {
+            // Transform the cart into the required structure
+            const cartDetails = {
+                cart_name: "My Cart", // Set the name of the cart
+                shipping_charge: 50, // Example shipping charge, adjust as necessary
+                cart_items: cart.map(item => ({
+                    item_id: item._id, // Unique identifier of the item
+                    item_name: item.name, // Name of the item
+                    item_currency: "INR", // Currency of the item
+                    item_description: item.description || "No description available", // Description of the item
+                    item_details_url: item.detailsUrl || "", // Item details URL
+                    item_discounted_unit_price: item.discountedPrice || item.price, // Discounted price
+                    item_original_unit_price: item.price, // Original price
+                    item_quantity: item.quantity, // Quantity of that item
+                    item_image_url: item.imageUrl || "", // Item image URL
+                    item_tags: item.tags || [], // Tags attached to that item
+                })),
+            };
+
             const bodydata = {
                 order_id: `order_${new Date().getTime()}`,
                 order_amount: price,
-                customer_id: `cust_${new Date().getTime()}`,
+                customer_id: `cust_${new Date().getTime()}`, // Sample customer ID
                 customer_phone: "9999999999", // Sample phone number
-            }
-            console.log(bodydata)
+                cart_details: cartDetails, // Use the transformed cart details
+            };
+            console.log(bodydata);
 
             const response = await fetch("/api/payment", {
                 method: "POST",
@@ -73,7 +92,7 @@ const Cart = () => {
                 body: JSON.stringify(bodydata),
             });
             const data = await response.json();
-            console.log(data)
+            console.log(data);
             if (!data.success) {
                 alert("Failed to initiate payment. Please try again.");
                 return;
