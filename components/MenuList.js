@@ -12,6 +12,7 @@ const MenuList = () => {
   const [cart, setCart] = useState([]);
   const [notification, setNotification] = useState(null); // State for notification
   const [loading, setLoading] = useState(true); // Add loading state
+  const currencySymbol="₹";
 
   // Initialize cart from local storage
   useEffect(() => {
@@ -123,7 +124,7 @@ const MenuList = () => {
 
                 <div className={styles.itemDetails}>
                   <h3>{item.name}</h3>
-                  <p>${item.price.toFixed(2)}</p>
+                  <p>{currencySymbol}{item.price.toFixed(2)}</p>
                   <button
                     onClick={() => addToCart(item)}
                     className={styles.addToCartButton}

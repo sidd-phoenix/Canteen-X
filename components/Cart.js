@@ -9,6 +9,7 @@ const Cart = () => {
     const [paymentSessionId, setPaymentSessionId] = useState("");
     const [unavailableItems, setUnavailableItems] = useState([]);
     const [notification, setNotification] = useState("");
+    const currencySymbol="₹";
 
     useEffect(() => {
         setIsClient(true);
@@ -159,7 +160,7 @@ const Cart = () => {
                 {cart.map(item => (
                     <li key={item._id} className="cart-item">
                         <button className="remove-button" onClick={() => removeCartItem(item._id)}>Remove</button>
-                        <strong>{item.name}</strong>: ${item.price}
+                        <strong>{item.name}</strong>: {currencySymbol}{item.price}
                         <div className="quantity-controls">
                             <button
                                 className="quantity-button"
@@ -184,12 +185,12 @@ const Cart = () => {
                             >
                                 +
                             </button>
-                            <span className="item-total">= ${item.price * item.quantity}</span>
+                            <span className="item-total">= {currencySymbol}{item.price * item.quantity}</span>
                         </div>
                     </li>
                 ))}
             </ul>
-            <h3 className="total">Total: ${calculateTotal()}</h3>
+            <h3 className="total">Total: {currencySymbol}{calculateTotal()}</h3>
             {notification && (
                 <div className="notification">
                     {notification}
