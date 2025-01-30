@@ -5,6 +5,7 @@ import Link from "next/link"; // Import Link from Next.js
 import Image from "next/image"; // Import Image from Next.js
 import styles from "../styles/MenuList.module.css";
 import MenuItemSkeleton from "./MenuItemSkeleton";
+import { useCart } from '@/context/CartContext'; // Import the CartContext
 
 const MenuList = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -12,6 +13,7 @@ const MenuList = () => {
   const [cart, setCart] = useState([]);
   const [notification, setNotification] = useState(null); // State for notification
   const [loading, setLoading] = useState(true); // Add loading state
+  const { addToCart } = useCart(); // Get the addToCart function from context
 
   // Initialize cart from local storage
   useEffect(() => {
@@ -31,6 +33,7 @@ const MenuList = () => {
           throw new Error("Failed to fetch menu items");
         }
         const data = await response.json();
+        // console.log(data);
         setMenuItems(data);
       } catch (error) {
         console.error("Error fetching menu items:", error);
@@ -43,21 +46,20 @@ const MenuList = () => {
   }, []);
 
   // Function to add item to cart
-  const addToCart = (item) => {
-    const existingItem = cart.find((cartItem) => cartItem._id === item._id);
+  const handleAddToCart = (item) => {
+    addToCart(); // Update the cart count
+
+    // Update local storage with the new item
+    const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+    const existingItem = storedCart.find(cartItem => cartItem._id === item._id);
+
     if (existingItem) {
-      const updatedCart = cart.map((cartItem) =>
-        cartItem._id === item._id
-          ? { ...existingItem, quantity: existingItem.quantity + 1 }
-          : cartItem
-      );
-      setCart(updatedCart);
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      existingItem.quantity += 1; // Increment quantity if item already exists
     } else {
-      const newCart = [...cart, { ...item, quantity: 1 }];
-      setCart(newCart);
-      localStorage.setItem("cart", JSON.stringify(newCart));
+      storedCart.push({ ...item, quantity: 1 }); // Add new item with quantity 1
     }
+
+    localStorage.setItem('cart', JSON.stringify(storedCart)); // Save updated cart to local storage
 
     // Show notification
     setNotification(`${item.name} has been added to your cart!`);
@@ -125,7 +127,7 @@ const MenuList = () => {
                   <h3>{item.name}</h3>
                   <p>${item.price.toFixed(2)}</p>
                   <button
-                    onClick={() => addToCart(item)}
+                    onClick={() => handleAddToCart(item)}
                     className={styles.addToCartButton}
                   >
                     Add to Cart
@@ -135,9 +137,6 @@ const MenuList = () => {
             ))
         )}
       </ul>
-      <Link href="/cart">
-        <button className={styles.viewCartButton}>View Cart</button>
-      </Link>
     </div>
   );
 };

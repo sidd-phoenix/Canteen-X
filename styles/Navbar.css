@@ -5,7 +5,7 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    transition: all var(--transition-normal);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .navbar-container {
@@ -22,16 +22,17 @@
     align-items: center;
     gap: 1.25rem;
     animation: slideIn 0.5s ease-out;
+    cursor: pointer;
 }
 
 .navbar-logo {
     height: 45px;
     width: auto;
-    transition: transform var(--transition-normal);
+    transition: transform 0.3s ease;
 }
 
 .navbar-logo:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 
 .navbar-brand h1 {
@@ -53,16 +54,23 @@
     box-shadow: var(--shadow-sm);
     animation: fadeIn 0.5s ease-out;
 }
-.profile-icon{
+
+.profile-icon {
     border-radius: 50%;
+    transition: transform 0.3s ease;
 }
+
+.profile-icon:hover {
+    transform: scale(1.1);
+}
+
 .profile-container {
     display: flex;
     align-items: center;
     gap: 1.25rem;
     padding: 0.5rem;
     border-radius: var(--radius-lg);
-    transition: all var(--transition-normal);
+    transition: background-color 0.3s ease;
 }
 
 .profile-container:hover {
@@ -88,7 +96,7 @@
     border: none;
     border-radius: var(--radius-md);
     font-weight: 600;
-    transition: all var(--transition-normal);
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .login-btn {
@@ -120,7 +128,7 @@
     color: var(--text-primary);
     padding: 0.5rem;
     border-radius: 50%;
-    transition: all var(--transition-normal);
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .theme-toggle-btn:hover {
@@ -179,7 +187,6 @@
   }
 }
 
-
 /* Responsive design */
 @media (max-width: 768px) {
     .navbar-brand h1 {
@@ -200,7 +207,7 @@
         padding: 0 1rem;
     }
 
-    .profile-pic {
+    .profile-icon {
         width: 35px;
         height: 35px;
     }
@@ -209,4 +216,36 @@
         padding: 0.5rem 1rem;
         font-size: 0.9rem;
     }
+}
+
+.cart-icon-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.cart-icon {
+  font-size: 1.8rem;
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+.cart-icon-container:hover .cart-icon {
+  color: var(--primary-color);
+  transform: scale(1.1);
+}
+
+.cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }

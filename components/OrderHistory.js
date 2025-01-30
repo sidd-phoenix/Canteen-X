@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import '../styles/OrderHistory.css';
+import OrderHistorySkeleton from './OrderHistorySkeleton';
 
 const OrderHistory = () => {
   const { data: session } = useSession();
@@ -40,8 +41,8 @@ const OrderHistory = () => {
       <h1>Order History</h1>
       <ul className="order-list">
         {loading ? (
-          Array.from({ length: 5 }).map((_, index) => (
-            <li key={index} className="skeletonfromorderhistory"> </li>
+          Array.from({ length: 4 }).map((_, index) => (
+            <OrderHistorySkeleton key={index} />
           ))
         ) : (
           orders.map(order => (

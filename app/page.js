@@ -4,10 +4,11 @@ import { Sidebar } from "../components/Sidebar";
 import { Content } from "../components/Content";
 import { ViewProvider } from "@/context/ViewContext";
 import { UserProvider } from "@/context/UserContext";
+import { CartProvider } from '@/context/CartContext';
 
 export default function Home() {
   return (
-    <div>
+    <CartProvider>
       <UserProvider>
         <ViewProvider>
           <Navbar />
@@ -17,6 +18,6 @@ export default function Home() {
           </div>
         </ViewProvider>
       </UserProvider>
-    </div>
+    </CartProvider>
   );
 }
