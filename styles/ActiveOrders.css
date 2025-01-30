@@ -1,0 +1,123 @@
+/* components/ActiveOrders.css */
+
+.active-orders-container {
+    padding: 2.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.active-orders-container h3 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+    position: relative;
+    padding-bottom: 0.75rem;
+}
+
+.active-orders-container h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(45deg, var(--primary-color), var(--primary-hover));
+    border-radius: var(--radius-lg);
+}
+
+.order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.order-card {
+    background: var(--card-bg-light);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-normal);
+    border: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.order-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.order-id {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.order-date {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.order-status {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.status-pending {
+    background-color: var(--warning-color);
+    color: var(--secondary-color);
+}
+
+.order-total {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .active-orders-container {
+        padding: 1.5rem;
+    }
+
+    .order-card {
+        padding: 1.5rem;
+    }
+
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .active-orders-container {
+        padding: 1rem;
+    }
+
+    .order-card {
+        padding: 1rem;
+    }
+}

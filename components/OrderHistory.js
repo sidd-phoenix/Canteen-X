@@ -25,7 +25,7 @@ const OrderHistory = () => {
         });
 
         const data = await response.json();
-        setOrders(data.orders || []);
+        setOrders(data.orders?.filter(order => order.status === 'completed') || []);
       } catch (error) {
         console.error('Error fetching orders:', error);
       } finally {
