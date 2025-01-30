@@ -19,7 +19,7 @@ export const authOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async signIn({ user, account}) {
+    async signIn({ user, account }) {
       await connectMongo(); // Connect to MongoDB
 
       // Check if user exists in the database
@@ -37,7 +37,7 @@ export const authOptions = {
       } else {
         user.role = existingUser.role; // Get role from existing user
       }
-      console.log("signIn",user.role)
+      console.log("signIn", user.role);
       
       return true; // Allow sign-in
     },
@@ -45,7 +45,7 @@ export const authOptions = {
       // Add user role to the token
       if (user) {
         token.role = user.role; // Add role to the token
-        console.log("jwt",token.role)
+        console.log("jwt", token.role);
       }
       return token;
     },
@@ -53,7 +53,7 @@ export const authOptions = {
       // Add user role to the session
       if (token) {
         session.user.role = token.role; // Set user role in session
-        console.log("session",session)
+        console.log("session", session);
       }
       return session;
     },
