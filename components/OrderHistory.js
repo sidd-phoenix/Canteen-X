@@ -7,6 +7,7 @@ const OrderHistory = () => {
   const { data: session } = useSession();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const currencySymbol="₹";
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -52,7 +53,7 @@ const OrderHistory = () => {
                 <p className="order-date">Placed At: {new Date(order.placedAt).toLocaleString()}</p>
               </div>
               <p className="order-status">Status: {order.status}</p>
-              <p className="order-total">Total Amount: ${order.totalAmount.toFixed(2)}</p>
+              <p className="order-total">Total Amount: {currencySymbol}{order.totalAmount.toFixed(2)}</p>
               <ul className="order-items">
                 {order.items.map(item => (
                   <li key={item.menuItemId} className="order-item">
@@ -60,7 +61,7 @@ const OrderHistory = () => {
                       <span className="item-name">Item: {item.name}</span>
                       <span className="item-quantity">Quantity: {item.quantity}</span>
                     </div>
-                    <span className="item-price">Price: ₹{item.price.toFixed(2)}</span>
+                    <span className="item-price">Price: {currencySymbol}{item.price.toFixed(2)}</span>
                   </li>
                 ))}
               </ul>

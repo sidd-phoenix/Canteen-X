@@ -24,7 +24,7 @@ export async function POST(req, res) {
         customer_phone: customer_phone,
       },
       order_meta: {
-        return_url: `http://canteen-x.vercel.app/order/${order_id}`,  // Redirect URL after payment
+        return_url: `http://localhost:3000/order/${order_id}`,  // Redirect URL after payment
       },
       cart_details: cart_details
     };

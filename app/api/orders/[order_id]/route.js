@@ -2,10 +2,10 @@ import Order from "@/models/ordersmodel"; // Import the Order model
 import { NextResponse } from "next/server";
 
 export async function GET(req, { params }) {
-    const { orderId } = params;
+    const { order_id } = await params;
 
     try {
-        const order = await Order.findOne({ orderId }); // Adjust the query as necessary
+        const order = await Order.findOne({ order_id }); // Adjust the query as necessary
         if (!order) {
             return NextResponse.json({ success: false, message: "Order not found" }, { status: 404 });
         }

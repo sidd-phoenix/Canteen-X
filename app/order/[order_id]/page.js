@@ -1,8 +1,8 @@
 import React from 'react';
 import OrderDetails from '@/components/OrderDetails';
 
-const OrderPage = ({ params }) => {
-    const { order_id } = params;
+const OrderPage = async ({ params }) => {
+    const { order_id } = await params;
 
     return (
         <div>
