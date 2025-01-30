@@ -7,6 +7,9 @@ const Cart = () => {
     const [cart, setCart] = useState([]);
     const [isClient, setIsClient] = useState(false);
     const [paymentSessionId, setPaymentSessionId] = useState("");
+    const [unavailableItems, setUnavailableItems] = useState([]);
+    const [notification, setNotification] = useState("");
+    const currencySymbol="₹";
 
     useEffect(() => {
         setIsClient(true);
@@ -17,6 +20,7 @@ const Cart = () => {
             quantity: item.quantity || 1,
         }));
         setCart(initializedCart);
+        checkItemAvailability(initializedCart);
     }, []);
 
     // Load Cashfree SDK in sandbox mode
@@ -31,17 +35,55 @@ const Cart = () => {
         }
     };
 
+    const checkItemAvailability = async (cartItems) => {
+        const unavailable = [];
+        for (const item of cartItems) {
+            const response = await fetch(`/api/menu/${item._id}`);
+            const data = await response.json();
+            if (!data.isAvailable) {
+                unavailable.push(data.name);
+            }
+        }
+        setUnavailableItems(unavailable);
+        console.log(unavailableItems)
+    };
+
     // Function to handle the "Buy Now" button click
     const handleBuyNow = async (price) => {
+        console.log("hbn", unavailableItems);
+        if (unavailableItems.length > 0) {
+            checkItemAvailability(cart);
+            setNotification(`Please remove the following unavailable items to proceed: ${unavailableItems.join(', ')}`);
+            setTimeout(() => setNotification(null), 2000); // Hide notification after 3 seconds
+            return;
+        }
         try {
+            // Transform the cart into the required structure
+            const cartDetails = {
+                cart_name: "My Cart", // Set the name of the cart
+                shipping_charge: 50, // Example shipping charge, adjust as necessary
+                cart_items: cart.map(item => ({
+                    item_id: item._id, // Unique identifier of the item
+                    item_name: item.name, // Name of the item
+                    item_currency: "INR", // Currency of the item
+                    item_description: item.description || "No description available", // Description of the item
+                    item_details_url: item.detailsUrl || "", // Item details URL
+                    item_discounted_unit_price: item.discountedPrice || item.price, // Discounted price
+                    item_original_unit_price: item.price, // Original price
+                    item_quantity: item.quantity, // Quantity of that item
+                    item_image_url: item.imageUrl || "", // Item image URL
+                    item_tags: item.tags || [], // Tags attached to that item
+                })),
+            };
 
-            const bodydata={
+            const bodydata = {
                 order_id: `order_${new Date().getTime()}`,
                 order_amount: price,
-                customer_id: `cust_${new Date().getTime()}`,
+                customer_id: `cust_${new Date().getTime()}`, // Sample customer ID
                 customer_phone: "9999999999", // Sample phone number
-            }
-            console.log(bodydata)
+                cart_details: cartDetails, // Use the transformed cart details
+            };
+            console.log(bodydata);
 
             const response = await fetch("/api/payment", {
                 method: "POST",
@@ -51,7 +93,7 @@ const Cart = () => {
                 body: JSON.stringify(bodydata),
             });
             const data = await response.json();
-            console.log(data)
+            console.log(data);
             if (!data.success) {
                 alert("Failed to initiate payment. Please try again.");
                 return;
@@ -94,7 +136,10 @@ const Cart = () => {
         localStorage.setItem('cart', JSON.stringify(updatedCart));
     };
 
-    const removeCartItem = (itemId) => {
+    const removeCartItem = async (itemId) => {
+        const itemToRemove = cart.find(item => item._id === itemId).name;
+        setUnavailableItems(unavailableItems.filter(item => item !== itemToRemove));
+        console.log("rci",unavailableItems)
         const updatedCart = cart.filter(item => item._id !== itemId);
         setCart(updatedCart);
         localStorage.setItem('cart', JSON.stringify(updatedCart)); // Update local storage
@@ -115,7 +160,7 @@ const Cart = () => {
                 {cart.map(item => (
                     <li key={item._id} className="cart-item">
                         <button className="remove-button" onClick={() => removeCartItem(item._id)}>Remove</button>
-                        <strong>{item.name}</strong>: ${item.price}
+                        <strong>{item.name}</strong>: {currencySymbol}{item.price}
                         <div className="quantity-controls">
                             <button
                                 className="quantity-button"
@@ -140,12 +185,17 @@ const Cart = () => {
                             >
                                 +
                             </button>
-                            <span className="item-total">= ${item.price * item.quantity}</span>
+                            <span className="item-total">= {currencySymbol}{item.price * item.quantity}</span>
                         </div>
                     </li>
                 ))}
             </ul>
-            <h3 className="total">Total: ${calculateTotal()}</h3>
+            <h3 className="total">Total: {currencySymbol}{calculateTotal()}</h3>
+            {notification && (
+                <div className="notification">
+                    {notification}
+                </div>
+            )}
             <Link href="/">
                 <button className="continue-shopping" onClick={saveCartToLocalStorage}>Continue Shopping</button>
             </Link>

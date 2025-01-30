@@ -112,7 +112,7 @@ const UserProfile = () => {
                                 <input
                                     type="tel"
                                     value={editForm.phone}
-                                    onChange={(e) => setEditForm({...editForm, phone: e.target.value})}
+                                    onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
                                 />
                             </div>
                         </div>
@@ -120,7 +120,7 @@ const UserProfile = () => {
                         <>
                             <div className="detail-group">
                                 <label>Role</label>
-                                <span>{userDetails.role}</span>
+                                <span>{session?.user.role}</span>
                             </div>
                             <div className="detail-group">
                                 <label>Phone</label>

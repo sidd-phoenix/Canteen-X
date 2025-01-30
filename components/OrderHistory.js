@@ -60,7 +60,7 @@ const OrderHistory = () => {
                       <span className="item-name">Item: {item.name}</span>
                       <span className="item-quantity">Quantity: {item.quantity}</span>
                     </div>
-                    <span className="item-price">Price: ${item.price.toFixed(2)}</span>
+                    <span className="item-price">Price: ₹{item.price.toFixed(2)}</span>
                   </li>
                 ))}
               </ul>
