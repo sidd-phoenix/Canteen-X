@@ -1,7 +1,5 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import eventEmitter from '@/app/EventEmitter'; // Import the event emitter
-
 const OrderDetails = ({ order_id }) => {
     const [orderData, setOrderData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -36,16 +34,6 @@ const OrderDetails = ({ order_id }) => {
         if (order_id) {
             fetchOrderDetails();
         }
-
-        const handleOrderUpdate = () => {
-            fetchOrderDetails(); // Refresh order details on update
-        };
-
-        eventEmitter.on('orderUpdated', handleOrderUpdate); // Listen for order updates
-
-        return () => {
-            eventEmitter.off('orderUpdated', handleOrderUpdate); // Clean up listener
-        };
     }, [order_id]);
 
     if (loading) return <div>Loading...</div>;
