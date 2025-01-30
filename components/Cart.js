@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { load } from "@cashfreepayments/cashfree-js";
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import '@/styles/Cart.css';
 
 const Cart = () => {
+    const { data: session } = useSession();
     const [cart, setCart] = useState([]);
     const [isClient, setIsClient] = useState(false);
     const [paymentSessionId, setPaymentSessionId] = useState("");
@@ -50,13 +52,26 @@ const Cart = () => {
 
     // Function to handle the "Buy Now" button click
     const handleBuyNow = async (price) => {
+        // Check if the user is logged in using NextAuth session
+        const isLoggedIn = !!session; // Check if session exists
+        console.log("User logged in status:", isLoggedIn); // Log the login status for debugging
+        console.log("User session data:", session); // Log the session data for debugging
+
+        if (!isLoggedIn) {
+            setNotification("You must be logged in to proceed with payment.");
+            setTimeout(() => setNotification(null), 2000); // Hide notification after 2 seconds
+            return;
+        }
+        
         console.log("hbn", unavailableItems);
         if (unavailableItems.length > 0) {
             checkItemAvailability(cart);
             setNotification(`Please remove the following unavailable items to proceed: ${unavailableItems.join(', ')}`);
-            setTimeout(() => setNotification(null), 2000); // Hide notification after 3 seconds
+            setTimeout(() => setNotification(null), 2000); // Hide notification after 2 seconds
             return;
         }
+
+        // Proceed with payment since the user is logged in
         try {
             // Transform the cart into the required structure
             const cartDetails = {
