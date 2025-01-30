@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaUser } from 'react-icons/fa'
+import { FaUser, FaList } from 'react-icons/fa'
 import { useView } from '@/context/ViewContext'; // Import the context
 
 
@@ -12,6 +12,9 @@ const Sidebar_order_taker = () => {
         <div className="sidebar">
             <button onClick={() => setView('user_profile')}>
                 <FaUser />
+            </button>
+            <button onClick={() => setView('orders')}>
+                <FaList />
             </button>
         </div>
     )

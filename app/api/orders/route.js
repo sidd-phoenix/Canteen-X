@@ -1,33 +1,45 @@
 import { NextResponse } from 'next/server';
 import connectMongo from '@/app/mongoose'; // Adjust the path as necessary
 import Order from '@/models/ordersmodel'; // Adjust the path to your Order model
-import User from '@/models/usermodel'; // Adjust the path to your User model
+import Menu from '@/models/menumodel'; // Import the Menu model
 
 export async function POST(request) {
     await connectMongo();
 
     try {
-        const { email } = await request.json();
-        console.log('Received email:', email); // Log the received email
+        const { counter } = await request.json(); // Get email and counter from request
+        console.log('Received counter:', counter); // Log the received counter
 
-        if (!email) {
-            return NextResponse.json({ message: 'Email is required' }, { status: 400 });
+        // Fetch orders for the specific customerId with items having status 'pending' and assignedCounter matching
+        const orders = await Order.find({
+            'items.assignedCounter': counter, // Filter by assignedCounter
+            'items.status': 'pending',
+        });
+
+        // Check if any orders are found
+        if (orders.length === 0) {
+            console.log('No orders found');
+            return NextResponse.json({ message: 'No orders found' }, { status: 404 });
         }
 
-        // Fetch the customerId using the user's email
-        const user = await User.findOne({ email });
-        console.log('Found user:', user); // Log the found user
+        // Fetch menu items based on the menuItemId from the orders
+        const menuItemIds = orders.flatMap(order => order.items.map(item => item.menuItemId));
+        const menuItems = await Menu.find({ _id: { $in: menuItemIds } });
 
-        if (!user) {
-            return NextResponse.json({ message: 'User not found' }, { status: 404 });
-        }
+        // Create a map for quick lookup of menu items by their ID
+        const menuItemMap = menuItems.reduce((map, item) => {
+            map[item._id] = item;
+            return map;
+        }, {});
 
-        const customerId = user._id;
-        console.log('Customer ID:', customerId); // Log the customerId
-
-        // Fetch orders for the specific customerId
-        const orders = await Order.find({ customerId });
-        console.log('Fetched orders:', orders); // Log the fetched orders
+        // Log the fetched orders and their corresponding menu items
+        orders.forEach(order => {
+            // console.log('Order:', order);
+            order.items.forEach(item => {
+                const menuItem = menuItemMap[item.menuItemId];
+                // console.log('MenuItemId:', item.menuItemId); // Log each menuItemId and its details
+            });
+        });
 
         return NextResponse.json({ orders }, { status: 200 });
     } catch (error) {

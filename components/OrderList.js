@@ -1,6 +1,7 @@
 // components/OrderList.js
 import React, { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react'; // Import useSession
+import eventEmitter from '@/app/EventEmitter'; // Import the event emitter
 // import '../styles/OrderList.css';
 
 const OrderList = () => {
@@ -9,30 +10,27 @@ const OrderList = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log("session",session)
         const fetchOrders = async () => {
             if (!session?.user?.email) {
-                console.error('User email not found');
+                    console.error('User email not found');
                 return;
             }
-            console.log(session.user.counter)
-            if (!session?.user?.counter) {
-                console.error('User counter not found');
-                return;
-            }
-            
+
             try {
-                const response = await fetch('/api/orders', {
+                const response = await fetch('/api/orders', { // Ensure the correct API endpoint is used
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ email: session.user.email }), // Send only email
+                    body: JSON.stringify({ counter: session.user.counter }), // Pass email to fetch orders
                 });
 
+                if (!response.ok) {
+                    throw new Error('Failed to fetch orders');
+                }
+
                 const data = await response.json();
-                console.log(data);
-                setOrders(data.orders || []);
+                setOrders(data.orders || []); // Set orders state
             } catch (error) {
                 console.error('Error fetching orders:', error);
             } finally {
@@ -41,26 +39,66 @@ const OrderList = () => {
         };
 
         fetchOrders();
-    }, [session]); // Remove counter from dependency array
+    }, [session]); // Dependency on session
+
+    const handleCheckboxChange = async (orderId, itemId) => {
+        try {
+            const response = await fetch('/api/orders/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ orderId, itemId }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update item status');
+            }
+
+            const data = await response.json();
+            console.log('Update response:', data);
+
+            // Update the orders state to remove the item that is now ready
+            setOrders(prevOrders => 
+                prevOrders.map(order => {
+                    if (order._id === orderId) {
+                        return {
+                            ...order,
+                            items: order.items.filter(item => item.menuItemId !== itemId) // Remove the item from the order
+                        };
+                    }
+                    return order;
+                })
+            );
+
+            // Emit an event after updating the order
+            eventEmitter.emit('orderUpdated', orderId);
+        } catch (error) {
+            console.error('Error updating item status:', error);
+        }
+    };
 
     if (loading) return <div>Loading...</div>;
 
     return (
         <div>
-            <h2>Orders for Counter: {session.counter}</h2>
+            <h2>Orders for Counter: {session.user.counter}</h2>
             <ul>
                 {orders
                     .filter(order => order.status === 'pending') // Filter orders with status 'pending'
                     .map(order => (
                         <li key={order._id}>
-                            <h3>Order ID: {order._id}</h3>
                             <ul>
                                 {order.items
-                                    .filter(item => item.assignedCounter === session.counter && item.status === 'pending') // Filter items by assignedCounter and status
+                                    .filter(item => item.assignedCounter === session.user.counter && item.status === 'pending') // Filter items by assignedCounter and status
                                     .map(item => (
                                         <li key={item.menuItemId}>
-                                            <input type="checkbox" /> {/* Checkbox for each item */}
-                                            {item.name} - ${item.price} (Quantity: {item.quantity})
+                                            <input 
+                                                type="checkbox" 
+                                                onChange={() => handleCheckboxChange(order._id, item.menuItemId)} 
+                                            /> {/* Checkbox for each item */}
+                                            {item.name} - ${item.price} (Quantity: {item.quantity}) - Order ID: {order._id}
+
                                         </li>
                                     ))}
                             </ul>

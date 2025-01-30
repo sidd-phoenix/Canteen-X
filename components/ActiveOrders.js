@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import '../styles/ActiveOrders.css';
 import ActiveOrdersSkeleton from './ActiveOrdersSkeleton';
+import eventEmitter from '@/app/EventEmitter'; // Import the event emitter
 
 const ActiveOrders = () => {
     const { data: session } = useSession();
@@ -35,6 +36,16 @@ const ActiveOrders = () => {
         };
 
         fetchOrders();
+
+        const handleOrderUpdate = () => {
+            fetchOrders(); // Refresh orders on update
+        };
+
+        eventEmitter.on('orderUpdated', handleOrderUpdate); // Listen for order updates
+
+        return () => {
+            eventEmitter.off('orderUpdated', handleOrderUpdate); // Clean up listener
+        };
     }, [session]);
 
     return (
