@@ -1,7 +1,6 @@
 // components/OrderList.js
 import React, { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react'; // Import useSession
-import eventEmitter from '@/app/EventEmitter'; // Import the event emitter
 // import '../styles/OrderList.css';
 
 const OrderList = () => {
@@ -70,9 +69,6 @@ const OrderList = () => {
                     return order;
                 })
             );
-
-            // Emit an event after updating the order
-            eventEmitter.emit('orderUpdated', orderId);
         } catch (error) {
             console.error('Error updating item status:', error);
         }
