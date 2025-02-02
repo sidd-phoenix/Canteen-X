@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { signOut } from 'next-auth/react';
-import { MdEmail, MdPhone, MdEdit, MdLogout, MdArrowBack } from 'react-icons/md';
+import { MdEmail, MdPhone, MdEdit, MdLogout} from 'react-icons/md';
 import Image from 'next/image';
-import Link from 'next/link';
-import '../styles/UserProfile.css';
+import '@/styles/UserProfile.css';
 
 const UserProfile = () => {
     const { data: session } = useSession();

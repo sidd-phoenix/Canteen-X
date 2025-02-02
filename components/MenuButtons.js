@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSubMenu } from '../context/MenuContext'
+import { useSubMenu } from '@/context/MenuContext'
 
 const MenuButtons = () => {
     const { setSubMenu } = useSubMenu()

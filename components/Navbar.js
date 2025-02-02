@@ -1,19 +1,15 @@
+import '@/styles/Navbar.css';
 import { useState, useEffect } from "react";
 import { FaSun, FaMoon, FaShoppingCart } from "react-icons/fa";
-import '../styles/Navbar.css';
 import { signIn, signOut, useSession } from "next-auth/react"; // Import NextAuth hooks
 import { useUser } from '@/context/UserContext';
-import UserProfile from './UserProfile';
-import Image from 'next/image';
-import Link from 'next/link';
 import { useView } from '@/context/ViewContext';
 import { useCart } from '@/context/CartContext';
+import Image from 'next/image';
 
 export const Navbar = () => {
   const [isDarkMode, setIsDarkMode] = useState(false); // State anirudh for dark mode
   const { data: session, status } = useSession(); // Get session data and status
-  const { userDetails } = useUser();
-  const [showProfile, setShowProfile] = useState(false);
   const { setView } = useView();
   const { cartCount } = useCart();
 

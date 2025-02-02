@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import '../styles/ModifyItems.css' // Import the CSS file
+import '@/styles/ModifyItems.css' // Import the CSS file
 
 const ModifyItems = () => {
   const [menuItems, setMenuItems] = useState([])

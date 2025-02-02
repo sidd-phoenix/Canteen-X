@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/OrderHistorySkeleton.module.css'; // Import the CSS module
+import styles from '@/styles/OrderHistorySkeleton.module.css'; // Import the CSS module
 
 const OrderHistorySkeleton = () => {
   return (

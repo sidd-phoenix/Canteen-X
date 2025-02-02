@@ -1,4 +1,4 @@
-'use client'; // For Next.js app directory
+'use client';
 
 import React, { useState } from 'react';
 import '@/styles/OrderTaker.css';

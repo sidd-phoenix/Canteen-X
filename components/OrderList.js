@@ -2,7 +2,7 @@
 import React from 'react';
 import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
-import '../styles/OrderList.css';
+import '@/styles/OrderList.css';
 
 const fetcher = (url) => fetch(url, {
     method: 'GET',

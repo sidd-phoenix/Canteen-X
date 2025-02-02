@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
-import '../styles/ActiveOrders.css';
+import '@/styles/ActiveOrders.css';
 import ActiveOrdersSkeleton from './ActiveOrdersSkeleton';
 
 const fetcher = (url, email) => fetch(url, {

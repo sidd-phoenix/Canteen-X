@@ -1,5 +1,5 @@
 import React from 'react'
-import "../styles/Content.css"
+import "@/styles/Content.css"
 import { useSession } from 'next-auth/react'
 import { useView } from '@/context/ViewContext'
 import UserProfile from './UserProfile'

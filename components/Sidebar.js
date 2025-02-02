@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import '../styles/Sidebar.css'
+import '@/styles/Sidebar.css'
 import { useSession } from "next-auth/react"; // Import NextAuth hooks
 import Sidebar_customer from './Sidebar_customer';
 import Sidebar_admin from './Sidebar_admin'

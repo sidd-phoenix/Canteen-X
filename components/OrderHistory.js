@@ -2,7 +2,7 @@ import React from 'react';
 import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
 import OrderHistorySkeleton from './OrderHistorySkeleton';
-import '../styles/OrderHistory.css';
+import '@/styles/OrderHistory.css';
 
 const fetcher = (url, email) => fetch(url, {
     method: 'POST',

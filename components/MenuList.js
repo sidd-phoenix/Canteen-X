@@ -1,9 +1,8 @@
 "use client"; // Ensure this is a client component
 
 import React, { useEffect, useState } from "react";
-import Link from "next/link"; // Import Link from Next.js
 import Image from "next/image"; // Import Image from Next.js
-import styles from "../styles/MenuList.module.css";
+import styles from "@/styles/MenuList.module.css";
 import MenuItemSkeleton from "./MenuItemSkeleton";
 import { useCart } from '@/context/CartContext'; // Import the CartContext
 

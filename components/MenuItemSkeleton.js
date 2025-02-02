@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/MenuList.module.css';
+import styles from '@/styles/MenuList.module.css';
 
 const MenuItemSkeleton = () => {
   return (
