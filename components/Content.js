@@ -1,6 +1,5 @@
 import React from 'react'
 import "@/styles/Content.css"
-import { useSession } from 'next-auth/react'
 import { useView } from '@/context/ViewContext'
 import UserProfile from './UserProfile'
 import OrderHistory from './OrderHistory'
@@ -11,10 +10,10 @@ import Removeordertaker from './Removeordertaker'
 import ActiveOrders from './ActiveOrders'
 import OrderList from './OrderList'
 import OrderTaker from './OrderTaker'
+import Footer from './Footer'
 
 export const Content = () => {
-  const { view, setView } = useView()
-  const { data: session } = useSession()
+  const { view } = useView()
 
   return (
     <div className="content-container">
@@ -47,6 +46,9 @@ export const Content = () => {
           <OrderTaker />
         )}
       </div>
+
+      <Footer />
+      
     </div>
   )
 }
