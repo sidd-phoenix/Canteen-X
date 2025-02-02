@@ -2,6 +2,12 @@
   padding: 2rem;
   max-width: 600px;
   margin: 0 auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.order-taker-container:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
 }
 
 .order-taker-form {
@@ -25,6 +31,12 @@
   padding: 0.8rem;
   border: 1px solid var(--border-color);
   border-radius: 0.5rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: var(--primary-color);
+  outline: none;
 }
 
 .order-taker-list {
@@ -45,6 +57,12 @@
   border-radius: 0.5rem;
   margin-bottom: 1rem;
   background-color: white;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.order-taker-list li:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
 }
 
 .remove-button {
@@ -68,4 +86,84 @@
 .remove-button:active {
   transform: translateY(0);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.order-list li {
+  background-color: #fff;
+  margin-bottom: 1rem;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  transition: box-shadow var(--transition-normal), transform 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.order-list li::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--primary-color), var(--primary-hover));
+}
+
+.order-list li:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+
+.order-list h2 {
+  margin: 0 0 0.5rem;
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.order-list p {
+  margin: 0.25rem 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.order-list ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 0.5rem;
+}
+
+.order-list ul li {
+  background-color: #f1f1f1;
+  margin-bottom: 0.5rem;
+  padding: 0.75rem;
+  border-radius: var(--radius-md);
+  border: 1px solid #ccc;
+  transition: background-color 0.3s ease;
+}
+
+.order-list ul li:hover {
+  background-color: var(--primary-light);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .order-list li {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .order-list li {
+    padding: 0.75rem;
+  }
 } 
