@@ -12,7 +12,7 @@ const OrderDetails = ({ order_id }) => {
             const response = await fetch(`https://sandbox.cashfree.com/pg/orders/${order_id}/extended`, {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json",
+                    // "Content-Type": "application/json",
                     "x-client-id": process.env.CASHFREE_CLIENT_ID,
                     "x-client-secret": process.env.CASHFREE_CLIENT_SECRET,
                     "x-api-version": process.env.CASHFREE_VERSION,
