@@ -1,21 +1,92 @@
-.footer {
-    background-color: #f8f9fa;
-    padding: 20px;
-    text-align: center;
-    border-top: 1px solid #dee2e6;
+.footer-container {
+    /* background-color: var(--background-dark); */
+    color: var(--text-light);
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    box-shadow: var(--shadow-md);
+    transition: background-color 0.3s ease;
+}
+
+.footer-container:hover {
+    background-color: var(--background-darker);
+}
+
+.footer-logo {
+    font-size: 1.75rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.footer-logo:hover {
+    color: var(--primary-hover);
 }
 
 .footer-links {
     display: flex;
-    justify-content: center;
-    gap: 15px; /* Space between links */
+    gap: 1.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin: 0;
 }
 
 .footer-links a {
+    color: var(--text-light);
     text-decoration: none;
-    color: #007bff; /* Link color */
+    font-weight: 500;
+    transition: color 0.3s ease;
 }
 
 .footer-links a:hover {
-    text-decoration: underline; /* Underline on hover */
+    color: var(--primary-color);
+}
+
+.footer-socials {
+    display: flex;
+    gap: 1rem;
+}
+
+.footer-socials a {
+    color: var(--text-light);
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.footer-socials a:hover {
+    color: var(--primary-color);
+}
+.footer-copyright{
+    font-size: 0.8rem;
+    color: var(--text-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 0;
+}
+/* Responsive design */
+
+@media (max-width: 768px) {
+    .footer-container {
+
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .footer-links {
+        margin-top: 1rem;
+    }
+
+    .footer-socials {
+        margin-top: 1rem;
+    }
 } 

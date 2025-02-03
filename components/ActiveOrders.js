@@ -1,6 +1,8 @@
 import React from 'react';
 import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock, faCheckCircle, faReceipt, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import '@/styles/ActiveOrders.css';
 import ActiveOrdersSkeleton from './ActiveOrdersSkeleton';
 
@@ -32,11 +34,11 @@ const ActiveOrders = () => {
 
     // Use skeleton loading while data is being fetched
     if (!data) return (
-        <ul className="skeleton-loading">
+        <div className="skeleton-loading">
             {Array.from({ length: 4 }).map((_, index) => (
-                <ActiveOrdersSkeleton key={index} />
+                <div key={index} className="skeleton-item"></div>
             ))}
-        </ul>
+        </div>
     );
 
     // Filter orders with status 'pending'
@@ -52,11 +54,13 @@ const ActiveOrders = () => {
                     orders.map(order => (
                         <li key={order._id} className="order-card">
                             <div className="order-header">
-                                <h2 className="order-id">Order ID: {order._id}</h2>
-                                <p className="order-date">Placed At: {new Date(order.placedAt).toLocaleString()}</p>
+                                <h2 className="order-id">
+                                    <FontAwesomeIcon icon={faReceipt} /> Order ID: {order._id}
+                                </h2>
+                                <p className="order-date">
+                                    <FontAwesomeIcon icon={faCalendarAlt} /> Placed At: {new Date(order.placedAt).toLocaleString()}
+                                </p>
                             </div>
-                            <p className="order-status">Status: {order.status}</p>
-                            <p className="order-total">Total Amount: ₹{order.totalAmount.toFixed(2)}</p>
                             <ul className="order-items">
                                 {order.items.map(item => (
                                     <li key={item.menuItemId} className="order-item">
@@ -64,14 +68,15 @@ const ActiveOrders = () => {
                                             <span className="item-name">Item: {item.name}</span>
                                             <span className="item-quantity">Quantity: {item.quantity}</span>
                                             <span className="item-status">
-                                                {item.status === 'pending' && '🕒 Preparing'}
-                                                {item.status === 'ready' && '✅ Ready'}
+                                                {item.status === 'preparing' && <><FontAwesomeIcon icon={faClock} /> Preparing</>}
+                                                {item.status === 'ready' && <><FontAwesomeIcon icon={faCheckCircle} /> Ready</>}
                                             </span>
                                         </div>
                                         <span className="item-price">Price: ₹{item.price.toFixed(2)}</span>
                                     </li>
                                 ))}
                             </ul>
+                            <p className="order-total">Total Amount: ₹{order.totalAmount.toFixed(2)}</p>
                         </li>
                     ))
                 )}

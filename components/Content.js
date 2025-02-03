@@ -10,7 +10,6 @@ import Removeordertaker from './Removeordertaker'
 import ActiveOrders from './ActiveOrders'
 import OrderList from './OrderList'
 import OrderTaker from './OrderTaker'
-import Footer from './Footer'
 
 export const Content = () => {
   const { view } = useView()
@@ -46,8 +45,6 @@ export const Content = () => {
           <OrderTaker />
         )}
       </div>
-
-      <Footer />
       
     </div>
   )

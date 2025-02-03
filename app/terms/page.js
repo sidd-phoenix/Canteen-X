@@ -1,17 +1,22 @@
 import React from 'react';
+import Link from 'next/link'; // Import Link from Next.js
+import '@/styles/InfoPages.css'; // Import the shared CSS file
 
-const TermsAndConditions = () => {
-    return (
-        <div>
-            <h1>Terms & Conditions</h1>
-            <p>These are the terms and conditions for using our service.</p>
-            <h2>1. Introduction</h2>
-            <p>Welcome to our service...</p>
-            <h2>2. User Agreement</h2>
-            <p>By using our service, you agree to...</p>
-            {/* Add more sections as needed */}
-        </div>
-    );
+const Terms = () => {
+  return (
+    <div className="info-page-container">
+      <h1 className="info-page-header">Terms and Conditions</h1>
+      <div className="info-page-content">
+        <p>By using our services, you agree to the following terms:</p>
+        <ul>
+          <li>All users must comply with our policies.</li>
+          <li>We reserve the right to update terms at any time.</li>
+        </ul>
+        <p>Please read our terms carefully before using our services.</p>
+      </div>
+      <Link href="/" className="home-link">Back to Home</Link>
+    </div>
+  );
 };
 
-export default TermsAndConditions; 
+export default Terms; 

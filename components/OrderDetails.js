@@ -12,9 +12,9 @@ const OrderDetails = ({ order_id }) => {
             const options = {
                 method: 'GET',
                 headers: {
-                    'x-client-id': process.env.NEXT_PUBLIC_CASHFREE_CLIENT_ID,
-                    'x-client-secret': process.env.NEXT_PUBLIC_CASHFREE_CLIENT_SECRET,
-                    'x-api-version': process.env.NEXT_PUBLIC_CASHFREE_VERSION
+                    // 'x-client-id': process.env.NEXT_PUBLIC_CASHFREE_CLIENT_ID,
+                    // 'x-client-secret': process.env.NEXT_PUBLIC_CASHFREE_CLIENT_SECRET,
+                    // 'x-api-version': process.env.NEXT_PUBLIC_CASHFREE_VERSION
                 }
             };
             console.log(options)

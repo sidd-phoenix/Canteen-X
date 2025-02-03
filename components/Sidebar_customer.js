@@ -1,7 +1,8 @@
 import { useView } from '@/context/ViewContext'
 import React from 'react'
-// import { FaHistory } from 'react-icons/fa'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHistory, faListAlt } from '@fortawesome/free-solid-svg-icons'
+import '../styles/Sidebar.css'
 
 const Sidebar_customer = () => {
 
@@ -9,11 +10,13 @@ const Sidebar_customer = () => {
 
     return (
         <div className="sidebar">
-            <button onClick={() => setView('order_history')}>
-                <h6>Order History</h6>
+            <button onClick={() => setView('order_history')} className="sidebar-button">
+                <FontAwesomeIcon icon={faHistory} />
+                {/* <h6>Order History</h6> */}
             </button>
-            <button onClick={() => setView('active_orders')}>
-                <h6>Active Orders</h6>
+            <button onClick={() => setView('active_orders')} className="sidebar-button">
+                <FontAwesomeIcon icon={faListAlt} />
+                {/* <h6>Active Orders</h6> */}
             </button>
         </div>
     )

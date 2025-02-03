@@ -1,6 +1,8 @@
 import React from 'react';
 import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarAlt, faReceipt, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import OrderHistorySkeleton from './OrderHistorySkeleton';
 import '@/styles/OrderHistory.css';
 
@@ -44,7 +46,7 @@ const OrderHistory = () => {
 
     return (
         <div className="order-history-container">
-            <h1>Order History</h1>
+            <h1 className="order-history-header">Order History</h1>
             <ul className="order-list">
                 {orders.length === 0 ? (
                     <p>No completed orders found.</p>
@@ -52,10 +54,16 @@ const OrderHistory = () => {
                     orders.map(order => (
                         <li key={order._id} className="order-card">
                             <div className="order-header">
-                                <h2 className="order-id">Order ID: {order._id}</h2>
-                                <p className="order-date">Placed At: {new Date(order.placedAt).toLocaleString()}</p>
+                                <h2 className="order-id">
+                                    <FontAwesomeIcon icon={faReceipt} /> Order ID: {order._id}
+                                </h2>
+                                <p className="order-date">
+                                    <FontAwesomeIcon icon={faCalendarAlt} /> Placed At: {new Date(order.placedAt).toLocaleString()}
+                                </p>
                             </div>
-                            <p className="order-status">Status: {order.status}</p>
+                            <p className="order-status">
+                                <FontAwesomeIcon icon={faCheckCircle} /> Status: {order.status}
+                            </p>
                             <p className="order-total">Total Amount: ₹{order.totalAmount.toFixed(2)}</p>
                             <ul className="order-items">
                                 {order.items.map(item => (

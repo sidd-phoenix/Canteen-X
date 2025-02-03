@@ -1,17 +1,22 @@
 import React from 'react';
+import Link from 'next/link'; // Import Link from Next.js
+import '@/styles/InfoPages.css'; // Import the shared CSS file
 
-const RefundsAndCancellations = () => {
-    return (
-        <div>
-            <h1>Refunds & Cancellations</h1>
-            <p>Our policy on refunds and cancellations is as follows:</p>
-            <h2>1. Refund Policy</h2>
-            <p>Refunds are available under certain conditions...</p>
-            <h2>2. Cancellation Policy</h2>
-            <p>You can cancel your order within...</p>
-            {/* Add more sections as needed */}
-        </div>
-    );
+const Refunds = () => {
+  return (
+    <div className="info-page-container">
+      <h1 className="info-page-header">Refund Policy</h1>
+      <div className="info-page-content">
+        <p>Our refund policy is as follows:</p>
+        <ul>
+          <li>Refunds are processed within 7 business days.</li>
+          <li>Contact support for any refund-related queries.</li>
+        </ul>
+        <p>We strive to ensure customer satisfaction.</p>
+      </div>
+      <Link href="/" className="home-link">Back to Home</Link>
+    </div>
+  );
 };
 
-export default RefundsAndCancellations; 
+export default Refunds;
