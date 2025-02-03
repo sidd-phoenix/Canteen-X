@@ -9,15 +9,16 @@ const OrderDetails = ({ order_id }) => {
 
     const fetchOrderDetails = async () => {
         try {
-            const response = await fetch(`https://sandbox.cashfree.com/pg/orders/${order_id}/extended`, {
-                method: "GET",
+            const options = {
+                method: 'GET',
                 headers: {
-                    // "Content-Type": "application/json",
-                    "x-client-id": process.env.CASHFREE_CLIENT_ID,
-                    "x-client-secret": process.env.CASHFREE_CLIENT_SECRET,
-                    "x-api-version": process.env.CASHFREE_VERSION,
-                },
-            });
+                    'x-client-id': process.env.CASHFREE_CLIENT_ID,
+                    'x-client-secret': process.env.CASHFREE_CLIENT_SECRET,
+                    'x-api-version': process.env.CASHFREE_VERSION
+                }
+            };
+            console.log(options)
+            const response = await fetch(`https://sandbox.cashfree.com/pg/orders/${order_id}/extended`, options);
 
             if (!response.ok) {
                 throw new Error(`Error fetching order details: ${response.statusText}`);
