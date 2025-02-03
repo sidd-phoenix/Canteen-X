@@ -13,8 +13,8 @@ const OrderDetails = ({ order_id }) => {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    // "x-client-id": process.env.CASHFREE_CLIENT_ID,
-                    // "x-client-secret": process.env.CASHFREE_CLIENT_SECRET,
+                    "x-client-id": process.env.CASHFREE_CLIENT_ID,
+                    "x-client-secret": process.env.CASHFREE_CLIENT_SECRET,
                     "x-api-version": process.env.CASHFREE_VERSION,
                 },
             });
