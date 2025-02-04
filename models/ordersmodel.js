@@ -34,7 +34,7 @@ const ordersSchema = new mongoose.Schema(
         },
         status: {
           type: String,
-          enum: ['pending', 'preparing', 'ready'], // Valid statuses for each item
+          enum: ['pending', 'ready'], // Valid statuses for each item
           default: 'pending',
         },
       },

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { load } from "@cashfreepayments/cashfree-js";
-import Link from 'next/link';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 import '@/styles/Cart.css';
 import '@/styles/OrderHistorySkeleton.module.css'; // Import the skeleton styles
 
@@ -61,9 +61,9 @@ const Cart = () => {
     // Function to handle the "Buy Now" button click
     const handleBuyNow = async (price) => {
         // Check if the user is logged in using NextAuth session
-        const isLoggedIn = !!session; // Check if session exists
-        console.log("User logged in status:", isLoggedIn); // Log the login status for debugging
-        console.log("User session data:", session); // Log the session data for debugging
+        const isLoggedIn = session;
+        // console.log("User logged in status:", isLoggedIn);
+        // console.log("User session data:", session); 
 
         if (!isLoggedIn) {
             setNotification("You must be logged in to proceed with payment.");
@@ -81,15 +81,34 @@ const Cart = () => {
 
         // Proceed with payment since the user is logged in
         try {
+            // Fetch customer_id using the email from the session
+            const email = session.user.email;
+            const customerResponse = await fetch(`/api/cust_id`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email }),
+            });
+            const customerData = await customerResponse.json();
+
+            if (!customerData.success) {
+                alert("Failed to fetch customer ID. Please try again.");
+                return;
+            }
+
+            const customer_id = customerData.customer_id;
+
             // Transform the cart into the required structure
             const cartDetails = {
                 cart_name: "My Cart", // Set the name of the cart
                 shipping_charge: 50, // Example shipping charge, adjust as necessary
                 cart_items: cart.map(item => ({
+                    assignedCounter: item.assignedCounter,
                     item_id: item._id, // Unique identifier of the item
                     item_name: item.name, // Name of the item
                     item_currency: "INR", // Currency of the item
-                    item_description: item.description || "No description available", // Description of the item
+                    item_description: String(item.assignedCounter) || "No description available", // Description of the item
                     item_details_url: item.detailsUrl || "", // Item details URL
                     item_discounted_unit_price: item.discountedPrice || item.price, // Discounted price
                     item_original_unit_price: item.price, // Original price
@@ -102,7 +121,7 @@ const Cart = () => {
             const bodydata = {
                 order_id: `order_${new Date().getTime()}`,
                 order_amount: price,
-                customer_id: `cust_${new Date().getTime()}`, // Sample customer ID
+                customer_id: customer_id, // Use the fetched customer_id
                 customer_phone: "9999999999", // Sample phone number
                 cart_details: cartDetails, // Use the transformed cart details
             };

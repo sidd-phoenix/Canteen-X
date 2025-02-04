@@ -5,7 +5,7 @@ export async function POST(req, res) {
   console.log("Request received");
   try {
     const requestData = await req.json();
-    console.log(requestData)
+    // console.log(requestData)
     const { order_id, order_amount, customer_id, customer_phone, cart_details } = requestData;
 
     // Set Cashfree credentials from environment variables
@@ -13,6 +13,8 @@ export async function POST(req, res) {
     Cashfree.XClientSecret = process.env.CASHFREE_CLIENT_SECRET;
     Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
     const version = process.env.CASHFREE_VERSION;
+  
+    
 
     // Configure order request
     const request = {
@@ -25,6 +27,7 @@ export async function POST(req, res) {
       },
       order_meta: {
         return_url: `https://canteen-x.vercel.app/order/${order_id}`,  // Redirect URL after payment
+        // return_url: `http://localhost:3000/order/${order_id}`,  // Redirect URL after payment
       },
       cart_details: cart_details
     };

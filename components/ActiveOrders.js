@@ -68,7 +68,7 @@ const ActiveOrders = () => {
                                             <span className="item-name">Item: {item.name}</span>
                                             <span className="item-quantity">Quantity: {item.quantity}</span>
                                             <span className="item-status">
-                                                {item.status === 'preparing' && <><FontAwesomeIcon icon={faClock} /> Preparing</>}
+                                                {item.status === 'pending' && <><FontAwesomeIcon icon={faClock} /> Preparing</>}
                                                 {item.status === 'ready' && <><FontAwesomeIcon icon={faCheckCircle} /> Ready</>}
                                             </span>
                                         </div>
