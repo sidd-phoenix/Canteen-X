@@ -5,7 +5,7 @@ export async function GET(req, { params }) {
     const { order_id } = await params;
 
     try {
-        const order = await Order.findOne({ order_id }); // Adjust the query as necessary
+        const order = await Order.findOne({ order_id });
         if (!order) {
             return NextResponse.json({ success: false, message: "Order not found" }, { status: 404 });
         }
