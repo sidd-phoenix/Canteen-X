@@ -1,4 +1,4 @@
-import Order from "@/models/ordersmodel"; // Import the Order model
+import Order from "@/models/ordersmodel";
 import { NextResponse } from "next/server";
 
 export async function GET(req, { params }) {
