@@ -2,9 +2,9 @@ import '@/styles/Navbar.css';
 import { useState, useEffect } from "react";
 import { FaSun, FaMoon, FaShoppingCart } from "react-icons/fa";
 import { signIn, signOut, useSession } from "next-auth/react"; // Import NextAuth hooks
-import { useUser } from '@/context/UserContext';
 import { useView } from '@/context/ViewContext';
 import { useCart } from '@/context/CartContext';
+import Link from 'next/link';
 import Image from 'next/image';
 
 export const Navbar = () => {
@@ -33,14 +33,14 @@ export const Navbar = () => {
     setIsDarkMode(!isDarkMode);
     document.body.classList.toggle("dark-mode", !isDarkMode);
     document.body.classList.toggle("light-mode", isDarkMode);
-    
+
     // Save the theme preference to localStorage
     localStorage.setItem('theme', newTheme);
-    
+
     // Ensure the cart page also reflects the theme change
     const cartContainer = document.querySelector('.cart-container');
     if (cartContainer) {
-        cartContainer.classList.toggle("dark-mode", !isDarkMode);
+      cartContainer.classList.toggle("dark-mode", !isDarkMode);
     }
   };
 
@@ -90,12 +90,20 @@ export const Navbar = () => {
         </div>
 
         <div className="navbar-auth">
-          {/* <Link href="/cart"> */}
-            <a className="cart-icon-container" href='/cart'>
+          {!session && (
+            <Link className="cart-icon-container" href="/cart">
               <FaShoppingCart className="cart-icon" />
               {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-            </a>
-          {/* </Link> */}
+            </Link>
+          )}
+
+          {session && session.user.role === 'customer' && (
+            <Link className="cart-icon-container" href="/cart">
+              <FaShoppingCart className="cart-icon" />
+              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+            </Link>
+          )}
+
           {status === "loading" ? (
             <div className="profile-skeleton-container">
               <div className="skeleton skeleton-circle"></div> {/* Skeleton for profile picture */}
