@@ -81,13 +81,16 @@
   border: none;
   border-radius: var(--radius-md);
   font-weight: 500;
-  transition: all var(--transition-normal);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: var(--shadow-sm);
+  /* Add a slight margin to prevent overlap */
+  margin: 0 5px; /* Adjust margin as needed */
 }
 
 .menu-table button:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px); /* Slight upward movement */
   box-shadow: var(--shadow-md);
+  /* Remove any horizontal translation */
 }
 
 .menu-table button:active {

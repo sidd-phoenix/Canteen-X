@@ -237,6 +237,29 @@
   border-color: rgba(255, 255, 255, 0.2);
 }
 
+/* Add any additional dark mode styles for cart items */
+.dark-mode .cart-header {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark-mode .item-name {
+  color: var(--text-light);
+}
+
+.dark-mode .item-price {
+  color: var(--text-secondary);
+}
+
+/* Ensure other elements are styled appropriately in dark mode */
+.dark-mode .total {
+  color: var(--text-light);
+}
+
+.dark-mode .notification {
+  background-color: var(--warning-dark);
+  color: white;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .cart-container {
@@ -358,4 +381,53 @@
 
 .item-total {
   margin-left: 8px;
+}
+
+.account-section {
+  margin-bottom: var(--space-4);
+  padding: var(--space-4);
+  background: var(--card-bg-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.delivery-address {
+  margin-bottom: var(--space-4);
+  padding: var(--space-4);
+  background: var(--card-bg-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Add styles for buttons in account section */
+.account-section button {
+  margin-right: 10px;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+/* Adjust total and payment button styles */
+.total {
+  text-align: right;
+  margin: var(--space-4) 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.pay-now {
+  background: linear-gradient(45deg, var(--primary-color), var(--primary-hover));
+  color: var(--secondary-color);
+  border: none;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .account-section, .delivery-address {
+    padding: var(--space-3);
+  }
 } 
