@@ -3,6 +3,7 @@ import { load } from "@cashfreepayments/cashfree-js";
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import '@/styles/Cart.css';
+import '@/styles/OrderHistorySkeleton.module.css'; // Import the skeleton styles
 
 const Cart = () => {
     const { data: session } = useSession();
@@ -23,6 +24,13 @@ const Cart = () => {
         }));
         setCart(initializedCart);
         checkItemAvailability(initializedCart);
+
+        // Check localStorage for theme preference on component mount
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.classList.toggle("dark-mode", savedTheme === 'dark');
+            document.body.classList.toggle("light-mode", savedTheme === 'light');
+        }
     }, []);
 
     // Load Cashfree SDK in sandbox mode

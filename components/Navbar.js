@@ -18,10 +18,30 @@ export const Navbar = () => {
     console.log('Cart count updated:', cartCount);
   }, [cartCount]); // Dependency array to run effect when cartCount changes
 
+  useEffect(() => {
+    // Check localStorage for theme preference on component mount
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setIsDarkMode(savedTheme === 'dark');
+      document.body.classList.toggle("dark-mode", savedTheme === 'dark');
+      document.body.classList.toggle("light-mode", savedTheme === 'light');
+    }
+  }, []);
+
   const toggleTheme = () => {
+    const newTheme = !isDarkMode ? 'dark' : 'light';
     setIsDarkMode(!isDarkMode);
-    document.body.classList.toggle("dark-mode", !isDarkMode); // Toggle dark mode class
-    document.body.classList.toggle("light-mode", isDarkMode); // Toggle light mode class
+    document.body.classList.toggle("dark-mode", !isDarkMode);
+    document.body.classList.toggle("light-mode", isDarkMode);
+    
+    // Save the theme preference to localStorage
+    localStorage.setItem('theme', newTheme);
+    
+    // Ensure the cart page also reflects the theme change
+    const cartContainer = document.querySelector('.cart-container');
+    if (cartContainer) {
+        cartContainer.classList.toggle("dark-mode", !isDarkMode);
+    }
   };
 
   const handleLogout = () => {
