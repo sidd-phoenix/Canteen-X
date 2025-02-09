@@ -28,6 +28,11 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: null, // Null for admins and customers
     },
+    phoneNumber: { // New field for phone number
+      type: String,
+      required: false, // Not required initially
+      trim: true,
+    },
   },
   {
     timestamps: true, // Automatically add createdAt and updatedAt fields

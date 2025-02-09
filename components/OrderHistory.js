@@ -1,6 +1,6 @@
 import React from 'react';
-import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
+import { useSession } from 'next-auth/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faReceipt, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import OrderHistorySkeleton from './OrderHistorySkeleton';

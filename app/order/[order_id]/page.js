@@ -7,6 +7,12 @@ const OrderPage = ({ params }) => {
     const [status, setStatus] = useState(null);
     const [countdown, setCountdown] = useState(5); // Initialize countdown
 
+    // Function to clear the cart from localStorage
+    const clearCart = () => {
+        localStorage.removeItem('cart'); // Clear the cart variable from localStorage
+        console.log("Cart cleared from localStorage!"); // Optional: Log for confirmation
+    };
+    
     useEffect(() => {
         const fetchOrderData = async () => {
             try {
@@ -18,6 +24,12 @@ const OrderPage = ({ params }) => {
                 const result = await response.json();
                 console.log(result)
                 setStatus(result.status)
+
+                // Clear the cart if the order is successful
+                if (result.status === 'PAID') {
+                    clearCart(); // Call the function to clear the cart
+                }
+                
             } catch (error) {
                 console.log(error)
             }

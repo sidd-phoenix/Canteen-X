@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import "@/styles/Content.css"
 import { useView } from '@/context/ViewContext'
 import { useSession } from 'next-auth/react'
@@ -14,8 +14,9 @@ import OrderTaker from './OrderTaker'
 
 
 export const Content = () => {
-  const { view } = useView()
+  const { view, setView } = useView()
   const { data: session } = useSession()
+
   if (!session)
     return (
       <div className="content-container">
@@ -25,11 +26,10 @@ export const Content = () => {
       </div>
     )
 
-
   return (
     <div className="content-container">
       <div className="content-body">
-        {view === 'default' && session.user.role === 'customer' &&(
+        {view === 'default' && session.user.role === 'customer' && (
           <MenuList />
         )}
         {view === 'user_profile' && (

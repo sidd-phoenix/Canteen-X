@@ -34,10 +34,10 @@ export const authOptions = {
           role: 'customer', // Default role, can be changed as needed
         });
         user.role = 'customer'; // Set role for new user
-        user.counter=null;
+        user.counter = null;
       } else {
         user.role = existingUser.role; // Get role from existing user
-        user.counter=existingUser.counter;
+        user.counter = existingUser.counter;
       }
       console.log("signIn", user.role);
       
@@ -47,7 +47,7 @@ export const authOptions = {
       // Add user role to the token
       if (user) {
         token.role = user.role; // Add role to the token
-        token.counter=user.counter;
+        token.counter = user.counter;
         console.log("jwt", token.role);
       }
       return token;
@@ -56,7 +56,7 @@ export const authOptions = {
       // Add user role to the session
       if (token) {
         session.user.role = token.role; // Set user role in session
-        session.user.counter=token.counter;
+        session.user.counter = token.counter;
         console.log("session", session);
       }
       return session;

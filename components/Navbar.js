@@ -47,6 +47,7 @@ export const Navbar = () => {
   const handleLogout = () => {
     signOut();
   };
+  
   const handleLogin = () => {
     signIn("google", { callbackUrl: 'http://localhost:3000' });
   };

@@ -261,4 +261,25 @@
 .dark-mode {
   --skeleton-color: #2c3e50;
   --input-bg: #2c3e50;
+}
+
+.notification {
+  background-color: #f8d7da; /* Light red background */
+  color: #721c24; /* Dark red text */
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #f5c6cb; /* Border color */
+  border-radius: 5px;
+  position: relative;
+  animation: fadeIn 0.5s, fadeOut 0.5s 4.5s; /* Fade in and out animation */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
 } 

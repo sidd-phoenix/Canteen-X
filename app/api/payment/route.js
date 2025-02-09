@@ -2,7 +2,7 @@ import { Cashfree } from "cashfree-pg";
 import { NextResponse } from "next/server";
 
 export async function POST(req, res) {
-  console.log("Request received");
+  console.log("Payment Request received");
   try {
     const requestData = await req.json();
     // console.log(requestData)
@@ -32,8 +32,11 @@ export async function POST(req, res) {
       cart_details: cart_details
     };
 
+
     // Create an order with Cashfree
+    console.log(request)
     const response = await Cashfree.PGCreateOrder(version, request);
+    // console.log(response.data)
     if (response.status == 200) {
       return NextResponse.json({
         success: true,

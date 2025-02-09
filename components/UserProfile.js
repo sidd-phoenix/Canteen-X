@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { signOut } from 'next-auth/react';
-import { MdEmail, MdPhone, MdEdit, MdLogout} from 'react-icons/md';
+import { MdEmail, MdPhone, MdEdit } from 'react-icons/md';
 import Image from 'next/image';
 import '@/styles/UserProfile.css';
 
@@ -12,47 +11,51 @@ const UserProfile = () => {
     const [userDetails, setUserDetails] = useState({
         name: '',
         email: '',
-        phone: '',
+        phoneNumber: '',
         role: '',
     });
     const [editForm, setEditForm] = useState({
-        name: '',
-        phone: '',
+        phoneNumber: '',
     });
+    const [notification, setNotification] = useState('');
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const fetchUserDetails = async () => {
-            if (session?.user?.email) {
+            if (session) {
                 try {
                     const response = await fetch(`/api/user/${session.user.email}`);
                     const data = await response.json();
                     if (data.success) {
-                        setUserDetails({
-                            ...data.user,
-                            name: session.user.name,
-                            email: session.user.email,
-                            profileImage: session.user.image
-                        });
+                        setUserDetails(data.user);
+                        setEditForm({ phoneNumber: data.user.phoneNumber || '' });
+                    } else {
+                        setError(data.message || 'Failed to fetch user details.');
                     }
                 } catch (error) {
                     console.error('Error fetching user details:', error);
+                    setError('An error occurred while fetching user details.');
                 } finally {
                     setLoading(false);
                 }
             }
         };
 
-        if (session) {
-            fetchUserDetails();
-        }
+        fetchUserDetails();
     }, [session]);
 
     const handleEdit = () => {
-        setEditForm({
-            name: userDetails.name,
-            phone: userDetails.phone,
-        });
         setIsEditing(true);
+    };
+
+    const handleCancel = () => {
+        setIsEditing(false);
+        setEditForm({ phoneNumber: userDetails.phoneNumber });
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setEditForm((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleSave = async () => {
@@ -62,27 +65,36 @@ const UserProfile = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(editForm),
+                body: JSON.stringify({ phoneNumber: editForm.phoneNumber }),
             });
             const data = await response.json();
             if (data.success) {
-                setUserDetails(prev => ({
+                setUserDetails((prev) => ({
                     ...prev,
-                    ...data.user
+                    phoneNumber: editForm.phoneNumber,
                 }));
+                setNotification('Phone number updated successfully!');
                 setIsEditing(false);
+            } else {
+                setNotification(data.message || 'Failed to update phone number.');
             }
         } catch (error) {
             console.error('Error updating user details:', error);
+            setNotification('An error occurred while updating your details.');
         }
     };
 
     if (loading) {
-        return <UserProfileSkeleton />;
+        return <UserProfileSkeleton />
+    }
+
+    if (error) {
+        return <div className="error">{error}</div>; // Display error message
     }
 
     return (
         <div className="user-profile-page">
+            {notification && <div className="notification">{notification}</div>}
             <div className="user-profile">
                 <div className="profile-header">
                     <div className="profile-image-container">
@@ -95,10 +107,10 @@ const UserProfile = () => {
                         />
                     </div>
                     <div className="profile-info">
-                        <h2>{session?.user?.name}</h2>
+                        <h2>{userDetails.name}</h2>
                         <div className="profile-email">
                             <MdEmail />
-                            {session?.user?.email}
+                            {userDetails.email}
                         </div>
                     </div>
                 </div>
@@ -107,11 +119,14 @@ const UserProfile = () => {
                     {isEditing ? (
                         <div className="edit-form">
                             <div className="detail-group">
-                                <label>Phone</label>
+                                <label htmlFor="phoneNumber">Phone Number</label>
                                 <input
                                     type="tel"
-                                    value={editForm.phone}
-                                    onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
+                                    id="phoneNumber"
+                                    name="phoneNumber"
+                                    value={editForm.phoneNumber}
+                                    onChange={handleChange}
+                                    required
                                 />
                             </div>
                         </div>
@@ -119,13 +134,13 @@ const UserProfile = () => {
                         <>
                             <div className="detail-group">
                                 <label>Role</label>
-                                <span>{session?.user.role}</span>
+                                <span>{userDetails.role}</span>
                             </div>
                             <div className="detail-group">
-                                <label>Phone</label>
+                                <label>Phone Number</label>
                                 <span className="profile-phone">
                                     <MdPhone />
-                                    {userDetails.phone}
+                                    {userDetails.phoneNumber}
                                 </span>
                             </div>
                         </>
@@ -138,19 +153,14 @@ const UserProfile = () => {
                             <button className="profile-button save-button" onClick={handleSave}>
                                 Save Changes
                             </button>
-                            <button className="profile-button cancel-button" onClick={() => setIsEditing(false)}>
+                            <button className="profile-button cancel-button" onClick={handleCancel}>
                                 Cancel
                             </button>
                         </>
                     ) : (
-                        <>
-                            <button className="profile-button edit-button" onClick={handleEdit}>
-                                <MdEdit /> Edit Profile
-                            </button>
-                            <button className="profile-button logout-button" onClick={() => signOut()}>
-                                <MdLogout /> Logout
-                            </button>
-                        </>
+                        <button className="profile-button edit-button" onClick={handleEdit}>
+                            <MdEdit /> Edit Profile
+                        </button>
                     )}
                 </div>
             </div>

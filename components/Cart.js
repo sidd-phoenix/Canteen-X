@@ -55,7 +55,6 @@ const Cart = () => {
             }
         }
         setUnavailableItems(unavailable);
-        console.log(unavailableItems)
     };
 
     // Function to handle the "Buy Now" button click
@@ -71,10 +70,16 @@ const Cart = () => {
             return;
         }
         
-        console.log("hbn", unavailableItems);
+        // console.log("unavailable:", unavailableItems);
         if (unavailableItems.length > 0) {
             checkItemAvailability(cart);
             setNotification(`Please remove the following unavailable items to proceed: ${unavailableItems.join(', ')}`);
+            setTimeout(() => setNotification(null), 2000); // Hide notification after 2 seconds
+            return;
+        }
+
+        if(cart.length<=0){
+            setNotification(`No items in Cart`);
             setTimeout(() => setNotification(null), 2000); // Hide notification after 2 seconds
             return;
         }
@@ -125,7 +130,7 @@ const Cart = () => {
                 customer_phone: "9999999999", // Sample phone number
                 cart_details: cartDetails, // Use the transformed cart details
             };
-            console.log(bodydata);
+            // console.log(bodydata);
 
             const response = await fetch("/api/payment", {
                 method: "POST",
@@ -135,7 +140,7 @@ const Cart = () => {
                 body: JSON.stringify(bodydata),
             });
             const data = await response.json();
-            console.log(data);
+            // console.log(data);
             if (!data.success) {
                 alert("Failed to initiate payment. Please try again.");
                 return;
@@ -181,7 +186,7 @@ const Cart = () => {
     const removeCartItem = async (itemId) => {
         const itemToRemove = cart.find(item => item._id === itemId).name;
         setUnavailableItems(unavailableItems.filter(item => item !== itemToRemove));
-        console.log("rci",unavailableItems)
+        // console.log("rci",unavailableItems)
         const updatedCart = cart.filter(item => item._id !== itemId);
         setCart(updatedCart);
         localStorage.setItem('cart', JSON.stringify(updatedCart)); // Update local storage
