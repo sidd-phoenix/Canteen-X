@@ -1,15 +1,13 @@
 import React from 'react';
-import styles from '@/styles/MenuList.module.css';
+import '@/styles/MenuItemSkeleton.css';
 
 const MenuItemSkeleton = () => {
   return (
-    <li className={`${styles.menuItem} ${styles.skeleton}`}>
-      <div className={`${styles.skeletonImage} ${styles.pulse}`}></div>
-      <div className={styles.itemDetails}>
-        <div className={`${styles.skeletonTitle} ${styles.pulse}`}></div>
-        <div className={`${styles.skeletonPrice} ${styles.pulse}`}></div>
-        <div className={`${styles.skeletonButton} ${styles.pulse}`}></div>
-      </div>
+    <li className={`menuItem`}>
+      <div className={`skeletonImage pulse`}></div>
+        <div className="skeletonTitle pulse"></div>
+        <div className="skeletonPrice pulse"></div>
+        <div className="skeletonButton pulse"></div>
     </li>
   );
 };

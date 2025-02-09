@@ -17,7 +17,7 @@ export const Sidebar = () => {
     }
   }, [status]);
 
-  if (loading) {
+  if (session && loading) {
     return <SidebarSkeleton />;
   }
 

@@ -13,7 +13,7 @@ const MenuList = () => {
   const [notification, setNotification] = useState(null); // State for notification
   const [loading, setLoading] = useState(true); // Add loading state
   const { addToCart } = useCart(); // Get the addToCart function from context
-  const currencySymbol="₹";
+  const currencySymbol = "₹";
 
   // Initialize cart from local storage
   useEffect(() => {
@@ -87,7 +87,7 @@ const MenuList = () => {
       <ul className={styles.menuList}>
         {loading ? (
           // Show skeleton loaders while loading
-          [...Array(6)].map((_, index) => (
+          [...Array(8)].map((_, index) => (
             <MenuItemSkeleton key={index} />
           ))
         ) : (
@@ -100,32 +100,18 @@ const MenuList = () => {
             ) // Filter for available items
             .map((item) => (
               <li key={item._id} className={styles.menuItem}>
-                {item.imageUrl ? (
+                <div className={styles.itemContent}>
                   <Image
-                    src={item.imageUrl}
+                    src={item.imageUrl} // Convert to direct link
                     alt={item.name}
-                    width={300}
-                    height={200}
-                    style={{ objectFit: "cover" }} // Inline style for better rendering
+                    width={200} // Set width for small images
+                    height={200} // Set height for small images
+                    className={styles.itemImage} // Use the new itemImage class
                   />
-                ) : (
-                  <div
-                    style={{
-                      width: 300,
-                      height: 200,
-                      backgroundColor: "#ccc",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {item.name}
+                  <div className={styles.itemDetails}>
+                    <h3>{item.name}</h3>
+                    <p>{currencySymbol}{item.price.toFixed(2)}</p>
                   </div>
-                )}
-
-                <div className={styles.itemDetails}>
-                  <h3>{item.name}</h3>
-                  <p>{currencySymbol}{item.price.toFixed(2)}</p>
                   <button
                     onClick={() => handleAddToCart(item)}
                     className={styles.addToCartButton}
