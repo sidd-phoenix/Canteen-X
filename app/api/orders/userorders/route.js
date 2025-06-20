@@ -19,11 +19,9 @@ export async function POST(request) {
         // Find orders by customerId
         const orders = await Order.find({ customerId: user._id });
         console.log(orders);
-        if (orders.length === 0) {
-            return NextResponse.json({ message: 'No orders found' }, { status: 404 });
-        }
-
-        return NextResponse.json({ orders }, { status: 200 });
+        
+        // Return empty array instead of 404 when no orders found
+        return NextResponse.json({ orders: orders || [] }, { status: 200 });
     } catch (error) {
         console.error('Error fetching user orders:', error);
         return NextResponse.json({ message: 'Internal server error' }, { status: 500 });

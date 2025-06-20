@@ -77,6 +77,26 @@ const ModifyItems = () => {
     }
   }
 
+  const handleCounterChange = async (id, newCounter) => {
+    try {
+      const response = await fetch(`/api/menu?id=${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ assignedCounter: parseInt(newCounter) || 1 }),
+      });
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(`Failed to update counter: ${errorMessage}`);
+      }
+      const updatedItem = await response.json();
+      setMenuItems(menuItems.map(item => (item._id === id ? updatedItem : item)));
+    } catch (error) {
+      console.error('Error updating counter:', error);
+    }
+  }
+
   return (
     <div>
       <h2>Modify Menu Items</h2>
@@ -87,6 +107,7 @@ const ModifyItems = () => {
             <th>Name</th>
             <th>Price</th>
             <th>Category</th>
+            <th>Counter</th>
             <th>Available</th>
             <th>Actions</th>
           </tr>
@@ -117,6 +138,24 @@ const ModifyItems = () => {
                 />
               </td>
               <td>{item.category}</td>
+              <td>
+                <input
+                  type="number"
+                  value={item.assignedCounter || 1}
+                  min="1"
+                  onChange={(e) => {
+                    const newCounter = e.target.value;
+                    if (newCounter === "" || parseInt(newCounter) > 0) {
+                      handleCounterChange(item._id, newCounter);
+                    }
+                  }}
+                  onBlur={(e) => {
+                    if (!e.target.value || parseInt(e.target.value) <= 0) {
+                      handleCounterChange(item._id, "1");
+                    }
+                  }}
+                />
+              </td>
               <td>
                 <input
                   type="checkbox"

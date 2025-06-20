@@ -59,7 +59,7 @@ const OrderList = () => {
                                             type="checkbox" 
                                             onChange={() => handleCheckboxChange(order._id, item.menuItemId)} 
                                         />
-                                        <span className="item-name">{item.name}</span>
+                                        <span className="item-name">Order #{order.dailyOrderNumber} - {item.name}</span>
                                         <span className="item-price">₹{item.price}</span>
                                         <span className="item-quantity">Quantity: {item.quantity}</span>
                                     </li>

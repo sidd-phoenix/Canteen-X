@@ -148,6 +148,15 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Dark mode cart icon styles */
+.dark-mode .cart-icon {
+    color: var(--text-white); /* Use white color for better contrast in dark mode */
+}
+
+.dark-mode .cart-icon-container:hover .cart-icon {
+    color: var(--primary-color); /* Keep the hover effect with primary color */
+}
+
 /* Skeleton loading styles */
 .skeleton {
   background: #e0e0e0;

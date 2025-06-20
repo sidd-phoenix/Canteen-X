@@ -8,6 +8,11 @@ const ordersSchema = new mongoose.Schema(
       ref: 'User', // References the 'User' model (customer)
       required: true,
     },
+    dailyOrderNumber: {
+      type: Number,
+      required: true,
+      unique: true, // Ensure uniqueness for the day
+    },
     items: [
       {
         menuItemId: {

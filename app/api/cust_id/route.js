@@ -20,6 +20,8 @@ export async function POST(req, res) {
     return NextResponse.json({
       success: true,
       customer_id: customer_id,
+      customer_name: user.name, // Include customer name
+      customer_email: user.email, // Include customer email
     });
   } catch (error) {
     console.error("Error fetching customer ID:", error);

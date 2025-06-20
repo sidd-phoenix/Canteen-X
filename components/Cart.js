@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { load } from "@cashfreepayments/cashfree-js";
-import { useSession } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 import Link from 'next/link';
 import '@/styles/Cart.css';
 import '@/styles/OrderHistorySkeleton.module.css'; // Import the skeleton styles
 
 const Cart = () => {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     const [cart, setCart] = useState([]);
     const [isClient, setIsClient] = useState(false);
     const [paymentSessionId, setPaymentSessionId] = useState("");
@@ -86,6 +86,20 @@ const Cart = () => {
 
         // Proceed with payment since the user is logged in
         try {
+            // Generate daily order number
+            const orderNumberResponse = await fetch('/api/orders/generateOrderNumber', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            const orderNumberData = await orderNumberResponse.json();
+
+            if (!orderNumberData.success) {
+                alert("Failed to generate order number. Please try again.");
+                return;
+            }
+
             // Fetch customer_id using the email from the session
             const email = session.user.email;
             const customerResponse = await fetch(`/api/cust_id`, {
@@ -103,6 +117,9 @@ const Cart = () => {
             }
 
             const customer_id = customerData.customer_id;
+            const customer_name = customerData.customer_name || session.user.name; // Use API data or fallback to session
+            const customer_email = customerData.customer_email || session.user.email; // Use API data or fallback to session
+            const dailyOrderNumber = orderNumberData.dailyOrderNumber; // Get the generated daily order number
 
             // Transform the cart into the required structure
             const cartDetails = {
@@ -128,6 +145,9 @@ const Cart = () => {
                 order_amount: price,
                 customer_id: customer_id, // Use the fetched customer_id
                 customer_phone: "9999999999", // Sample phone number
+                customer_name: customer_name, // Use the fetched customer_name
+                customer_email: customer_email, // Use the fetched customer_email
+                dailyOrderNumber: dailyOrderNumber, // Include the daily order number
                 cart_details: cartDetails, // Use the transformed cart details
             };
             // console.log(bodydata);
@@ -148,6 +168,38 @@ const Cart = () => {
 
             // Store payment session ID and initiate payment
             setPaymentSessionId(data.data.payment_session_id);
+            
+            // Create order in database after successful payment initiation
+            const orderData = {
+                customerId: customer_id,
+                dailyOrderNumber: dailyOrderNumber,
+                items: cart.map(item => ({
+                    menuItemId: item._id,
+                    name: item.name,
+                    price: item.price,
+                    quantity: item.quantity,
+                    assignedCounter: item.assignedCounter,
+                    status: 'pending'
+                })),
+                totalAmount: price,
+                status: 'pending',
+                placedAt: new Date()
+            };
+
+            const orderResponse = await fetch('/api/orders/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orderData),
+            });
+
+            const orderResult = await orderResponse.json();
+            if (!orderResult.success) {
+                console.error("Failed to create order in database:", orderResult.message);
+                // Continue with payment even if order creation fails
+            }
+
             initiatePayment(data.data.payment_session_id);
         } catch (error) {
             console.error("Network Error:", error);
@@ -196,8 +248,36 @@ const Cart = () => {
         localStorage.setItem('cart', JSON.stringify(cart)); // Save the current cart to local storage
     };
 
+    const handleLogin = () => {
+        signIn("google", { callbackUrl: '/cart' });
+    };
+
     if (!isClient) {
         return null; // Render nothing on the server
+    }
+
+    // Show login prompt if user is not logged in
+    if (status === "loading") {
+        return (
+            <div className="cart-container">
+                <h2 className="cart-title">Your Cart</h2>
+                <p>Loading...</p>
+            </div>
+        );
+    }
+
+    if (!session) {
+        return (
+            <div className="cart-container">
+                <h2 className="cart-title">Your Cart</h2>
+                <div className="login-prompt">
+                    <p>Please log in to view your cart and place orders.</p>
+                    <button className="login-btn" onClick={handleLogin}>
+                        Login with Google
+                    </button>
+                </div>
+            </div>
+        );
     }
 
     return (

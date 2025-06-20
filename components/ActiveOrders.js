@@ -55,7 +55,7 @@ const ActiveOrders = () => {
                         <li key={order._id} className="order-card">
                             <div className="order-header">
                                 <h2 className="order-id">
-                                    <FontAwesomeIcon icon={faReceipt} /> Order ID: {order._id}
+                                    <FontAwesomeIcon icon={faReceipt} /> Order #{order.dailyOrderNumber}
                                 </h2>
                                 <p className="order-date">
                                     <FontAwesomeIcon icon={faCalendarAlt} /> Placed At: {new Date(order.placedAt).toLocaleString()}

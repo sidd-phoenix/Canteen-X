@@ -430,4 +430,47 @@
   .account-section, .delivery-address {
     padding: var(--space-3);
   }
+}
+
+/* Login prompt styles */
+.login-prompt {
+  text-align: center;
+  padding: 2rem;
+  background: var(--card-bg-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  margin: 2rem 0;
+}
+
+.login-prompt p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.login-prompt .login-btn {
+  background: linear-gradient(45deg, var(--primary-color), var(--primary-hover));
+  color: var(--secondary-color);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-sm);
+}
+
+.login-prompt .login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Dark mode support for login prompt */
+.dark-mode .login-prompt {
+  background: var(--card-bg-dark);
+}
+
+.dark-mode .login-prompt p {
+  color: var(--text-white);
 } 

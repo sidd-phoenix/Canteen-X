@@ -8,11 +8,9 @@
     padding: var(--space-3) var(--space-2);
     margin: var(--space-4) 0;
     border-radius: var(--radius-xl);
-    background: linear-gradient(
-        180deg,
-        var(--primary-color) 0%,
-        var(--primary-hover) 100%
-    );
+    background: linear-gradient(180deg,
+            var(--primary-color) 0%,
+            var(--primary-hover) 100%);
     box-shadow: var(--shadow-lg);
     position: relative;
     overflow: hidden;
@@ -26,16 +24,14 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        45deg,
-        rgba(255, 255, 255, 0.1) 0%,
-        rgba(255, 255, 255, 0) 100%
-    );
+    background: linear-gradient(45deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0) 100%);
     pointer-events: none;
 }
 
 .sidebar:hover {
-    width:12vw;
+    width: 12vw;
     box-shadow: var(--shadow-xl);
 }
 
@@ -127,11 +123,9 @@
 
 /* Dark mode styles */
 .dark-mode .sidebar {
-    background: linear-gradient(
-        180deg,
-        var(--secondary-color) 0%,
-        var(--background-dark) 100%
-    );
+    background: linear-gradient(180deg,
+            var(--secondary-color) 0%,
+            var(--background-dark) 100%);
 }
 
 .dark-mode .sidebar button {
@@ -196,9 +190,11 @@
     0% {
         box-shadow: 0 0 5px rgba(255, 217, 0, 0.2);
     }
+
     50% {
         box-shadow: 0 0 20px rgba(255, 217, 0, 0.4);
     }
+
     100% {
         box-shadow: 0 0 5px rgba(255, 217, 0, 0.2);
     }
@@ -215,7 +211,7 @@
         width: 200%;
         height: 200%;
     }
-    
+
     .sidebar button:active {
         background: rgba(255, 255, 255, 0.2);
     }
@@ -271,9 +267,11 @@
     0% {
         opacity: 0.6;
     }
+
     50% {
         opacity: 1;
     }
+
     100% {
         opacity: 0.6;
     }

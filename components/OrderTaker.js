@@ -72,11 +72,11 @@ const OrderTaker = () => {
             <ul className="order-list">
                 {orders.map(order => (
                     <li key={order._id} className="order-card">
-                        <h2>Order ID: {order._id}</h2>
+                        <h2>Order #{order.dailyOrderNumber}</h2>
                         <ul>
                             {order.items.filter(item => item.assignedCounter === counterNumber && item.status === 'pending').map(item => (
                                 <li key={item.menuItemId}>
-                                    <span>{item.name} - Quantity: {item.quantity}</span>
+                                    <span>Order #{order.dailyOrderNumber} - {item.name} - Quantity: {item.quantity}</span>
                                     <button onClick={() => markAsReady(order._id, item.menuItemId)}>Tick as Ready</button>
                                 </li>
                             ))}

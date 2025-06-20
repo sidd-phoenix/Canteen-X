@@ -6,7 +6,7 @@ export async function POST(req, res) {
   try {
     const requestData = await req.json();
     // console.log(requestData)
-    const { order_id, order_amount, customer_id, customer_phone, cart_details } = requestData;
+    const { order_id, order_amount, customer_id, customer_phone, customer_name, customer_email, cart_details } = requestData;
 
     // Set Cashfree credentials from environment variables
     Cashfree.XClientId = process.env.CASHFREE_CLIENT_ID;
@@ -24,6 +24,8 @@ export async function POST(req, res) {
       customer_details: {
         customer_id: customer_id,
         customer_phone: customer_phone,
+        customer_name: customer_name,
+        customer_email: customer_email,
       },
       order_meta: {
         return_url: `https://canteen-x.vercel.app/order/${order_id}`,  // Redirect URL after payment
