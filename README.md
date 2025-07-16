@@ -16,7 +16,7 @@ It is crafted to handle real-world canteen workflows while remaining fully serve
 
 ## 🌐 Live Site
 
-Access it here: [canteenx.vercel.app](https://canteen-x.vercel.app)
+Access it here: [canteen-x.vercel.app](https://canteen-x.vercel.app)
 
 *(Note: You may need specific login access depending on your role)*
 
@@ -104,7 +104,6 @@ Inspired? Want to build on this idea? Reach out — collaboration is welcome wit
 ## 📫 Contact
 
 For ideas, feedback, or collaboration, feel free to [open an issue](https://github.com/sidd-phoenix/Canteen-X/issues) or reach out directly.
-
 ---
 
 *Thank you for exploring CanteenX!*
