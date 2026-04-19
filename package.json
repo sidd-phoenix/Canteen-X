@@ -20,7 +20,7 @@
     "express-session": "^1.18.1",
     "googleapis": "^144.0.0",
     "mongoose": "^8.9.5",
-    "next": "^16.2.4",
+    "next": "^15.3.0",
     "next-auth": "^4.24.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -31,7 +31,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "eslint": "^9",
-    "eslint-config-next": "15.1.5",
+    "eslint-config-next": "^15.3.0",
     "postcss": "^8"
   }
 }
