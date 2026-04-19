@@ -49,7 +49,7 @@ export const Navbar = () => {
   };
   
   const handleLogin = () => {
-    signIn("google", { callbackUrl: 'http://localhost:3000' });
+    signIn("google", { callbackUrl: window.location.origin });
   };
 
   const handleProfileClick = () => {
@@ -65,7 +65,7 @@ export const Navbar = () => {
       <div className="navbar-container">
         <div className="navbar-brand">
           <img
-            src="./logo1.jpg"
+            src="/logo1.jpg"
             alt="CanteenX Logo"
             className="navbar-logo"
             onClick={handleLogoClick}

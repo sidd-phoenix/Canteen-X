@@ -5,9 +5,27 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ['lh3.googleusercontent.com', 'drive.google.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'drive.google.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.googleusercontent.com',
+      },
+      // Add other image hosts here if menu item images are hosted elsewhere
+      // e.g. Cloudinary, S3, etc.
+      {
+        protocol: 'https',
+        hostname: '**', // Allow all HTTPS sources (restrict this once you know your image host)
+      },
+    ],
   },
-  // ... other configurations ...
 };
 
-module.exports = nextConfig; 
+module.exports = nextConfig;
